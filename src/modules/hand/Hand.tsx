@@ -1,9 +1,9 @@
 import {CSSProperties} from 'react';
-import styled from 'styled-components';
+import styled, {DefaultTheme} from 'styled-components';
 
 import {transparentize} from '~/lib';
 
-import {Finger} from './types';
+import {fingers, Finger} from './types';
 
 const rightHandPaths = (
   <>
@@ -94,24 +94,39 @@ const leftHandPaths = (
 );
 
 type HandProps = {
+  asIcon: boolean;
   className?: string;
   finger?: Finger;
   side?: 'left' | 'right';
   style?: CSSProperties;
 };
 
+const fingerColor = (highlight: boolean = false, asIcon: boolean = false, theme: DefaultTheme): string => {
+  if (!highlight) {
+    return theme.color.transparent;
+  }
+
+  if (asIcon) {
+    return theme.color.text.default;
+  }
+
+  return theme.color.primary.default;
+};
+
 const HandShape = styled.svg.attrs(() => ({
+  className: 'hand-shape',
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 328 400',
 }))<Omit<HandProps, 'side'>>`
   .hand {
-    fill: ${({theme}) => theme.color.text.lighter};
+    fill: ${({theme}) => theme.color.background.default};
   }
 
   .finger {
     :hover {
       cursor: pointer;
       fill: ${({theme}) => transparentize(theme.color.clickable.highlight, 34)};
+      stroke: ${({theme}) => transparentize(theme.color.clickable.default, 34)};
     }
   }
 
@@ -120,29 +135,18 @@ const HandShape = styled.svg.attrs(() => ({
       finger === 'thumb' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
   }
 
-  .index-finger {
-    fill: ${({finger, theme}) =>
-      finger === 'index-finger' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
-  }
-
-  .middle-finger {
-    fill: ${({finger, theme}) =>
-      finger === 'middle-finger' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
-  }
-
-  .ring-finger {
-    fill: ${({finger, theme}) =>
-      finger === 'ring-finger' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
-  }
-
-  .little-finger {
-    fill: ${({finger, theme}) =>
-      finger === 'little-finger' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
-  }
+  ${({asIcon, finger, theme}) =>
+    fingers.map(
+      (f) => `
+        .${f} {
+          fill: ${fingerColor(finger === f, asIcon, theme)};
+        }
+      `
+    )}
 `;
 
-export const Hand = ({className = '', finger, side = 'right', style = {}}: HandProps) => (
-  <HandShape finger={finger} className={className} style={style}>
+export const Hand = ({asIcon = false, className = '', finger, side = 'right', style = {}}: HandProps) => (
+  <HandShape finger={finger} className={className} style={style} asIcon={asIcon}>
     {side === 'left' ? leftHandPaths : rightHandPaths}
   </HandShape>
 );

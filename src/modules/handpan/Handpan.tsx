@@ -13,7 +13,7 @@ export type activeHandpanElements = {
 
 type HandpanProps = {
   className?: string;
-  mode?: 'playback' | 'record';
+  mode: 'record' | 'playback';
   variant?: HandpanVariant;
   style?: CSSProperties;
 } & activeHandpanElements;
@@ -66,5 +66,9 @@ export const Handpan = ({
       HandpanPaths = <SelaAmaraD active={active} />;
   }
 
-  return <Instrument mode={mode}>{HandpanPaths}</Instrument>;
+  return (
+    <Instrument mode={mode} className={className} style={style}>
+      {HandpanPaths}
+    </Instrument>
+  );
 };

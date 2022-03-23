@@ -7,6 +7,7 @@ interface GlobalStore {
   changeVolume: (category: 'master' | 'music' | 'click', value: number) => void;
   currentStep: number;
   isPlaying: boolean;
+  mode: 'record' | 'playback';
   setNextStep: () => void;
   steps: (Step | null)[];
   tempo: number;
@@ -43,6 +44,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
   },
   currentStep: 0,
   isPlaying: false,
+  mode: 'record',
   setNextStep: () => {
     const {currentStep, steps} = get();
 
@@ -52,7 +54,32 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
       })
     );
   },
-  steps: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+  steps: [
+    null,
+    null,
+    {
+      tone: 'D-3',
+      technique: {hand: 'left', finger: 'index-finger', stroke: 'full stroke'},
+      velocity: 100,
+    },
+    null,
+    null,
+    null,
+    {
+      tone: 'E-3',
+      technique: {hand: 'right', finger: 'thumb', stroke: 'downstroke'},
+      velocity: 100,
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
   tempo: 120,
   togglePlayback: () => {
     const {isPlaying} = get();

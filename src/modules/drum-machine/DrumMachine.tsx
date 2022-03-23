@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {Sampler} from 'tone';
 
 import {Hand} from '~/modules/hand';
@@ -16,8 +16,7 @@ import {StepSequencer} from './StepSequencer';
 import {TempoControl} from './TempoControl';
 import {TransportButtons} from './TransportButtons';
 import {VolumeControls} from './VolumeControls';
-
-const mockActive: string[] = ['Tone6', 'Tone3'];
+import {useGlobalState} from '../global-state';
 
 const Transport = styled(Box)`
   grid-column-start: 2;
@@ -75,6 +74,7 @@ const Layout = styled(GridLayout).attrs(() => ({
 `;
 
 export const DrumMachine = () => {
+  const {mode} = useGlobalState(({mode}) => ({mode}));
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef(null);
 
@@ -92,14 +92,18 @@ export const DrumMachine = () => {
     sampler.current.triggerAttack('A1');
   };
 
+  const activeElements: string[] = []; // mock data; should be derived from current step
+
   return (
     <BaseLayout>
       <Layout>
         <Transport flexDirection="column" alignItems="center" justifyContent="center">
           <TransportButtons />
-          <button onClick={handleClick} disabled={!isLoaded}>
-            start
-          </button>
+          {/*
+            <button onClick={handleClick} disabled={!isLoaded}>
+              start
+            </button>
+          */}
         </Transport>
         <VolumeAndTempo>
           <Box flexDirection="column" alignItems="center" justifyContent="center">
@@ -110,13 +114,13 @@ export const DrumMachine = () => {
           </Box>
         </VolumeAndTempo>
         <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-          <LeftHand finger="thumb" />
+          <LeftHand finger={undefined} />
         </Box>
         <InstrumentPreview>
-          <Handpan active={mockActive} mode="record" />
+          <Handpan active={activeElements} mode={mode} />
         </InstrumentPreview>
         <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-          <RightHand finger="index-finger" />
+          <RightHand finger={undefined} />
         </Box>
         <Box style={{gridArea: 'footer'}}>
           <StepSequencer />
