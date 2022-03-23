@@ -16,14 +16,8 @@ export const Border = () => (
 
 export const Ding = ({className, active}: HandpanElement) => (
   <g className={clsx(baseClass, 'ding', {active}, className)}>
-    <path
-      className="playable-area"
-      d="M345.5 268.7c25.4 0 46 26.4 46 58.9s-20.6 58.9-46 58.9-46-26.4-46-58.9 20.6-58.9 46-58.9m0-1c-26 0-47 26.8-47 59.9s21 59.9 47 59.9 47-26.8 47-59.9-21-59.9-47-59.9z"
-    />
-    <path
-      className="unplayable-area"
-      d="M345.5 174.6c29.8 0 57.8 14.8 78.8 41.6 21.1 26.9 32.8 62.7 32.8 100.8s-11.6 73.9-32.8 100.8c-21.1 26.8-49.1 41.6-78.8 41.6s-57.8-14.8-78.8-41.6c-21.1-26.9-32.8-62.7-32.8-100.8s11.6-73.9 32.8-100.8c21.1-26.8 49-41.6 78.8-41.6m0-1c-62.2 0-112.6 64.2-112.6 143.4s50.4 143.4 112.6 143.4S458.1 396.2 458.1 317s-50.4-143.4-112.6-143.4z"
-    />
+    <ellipse cx="340.7" cy="330.5" className="unplayable-area" rx="112.7" ry="143" />
+    <ellipse cx="340.7" cy="330.5" className="playable-area" rx="48.2" ry="61.2" />
   </g>
 );
 

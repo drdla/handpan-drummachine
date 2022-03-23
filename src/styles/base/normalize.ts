@@ -326,7 +326,7 @@ export const normalize = `
   * Add the correct display in all browsers.
   */
 
-  summary {
+  mastermary {
     display: list-item;
   }
 

@@ -1,6 +1,9 @@
-import {CSSProperties, memo, useCallback, useState} from 'react';
 import {borderRadius} from 'polished';
-import styled from 'styled-components';
+import {CSSProperties, memo, useCallback, useState} from 'react';
+import styled from 'styled-components/macro';
+
+import {useGlobalState} from '~/modules/global-state';
+import type {Step as StepType} from '~/modules/global-state';
 
 import {Box} from '~/components';
 
@@ -22,9 +25,10 @@ const StepNumber = styled.span`
   font-size: ${({theme}) => theme.font.size.small};
   position: absolute;
   top: ${({theme}) => theme.size.default};
+  user-select: none;
 `;
 
-const Step = styled(Box)<StepProps>`
+const Step = memo(styled(Box)<StepProps>`
   align-items: center;
   color: ${({theme}) => theme.color.text.lightest};
   font-size: ${({theme}) => theme.font.size.huge};
@@ -42,11 +46,13 @@ const Step = styled(Box)<StepProps>`
         color: ${theme.color.text.default};
       `
       : null}
-`;
+`);
 
 const Container = styled(Box)`
   border: ${({theme}) => theme.border.default};
   border-radius: ${({theme}) => theme.border.radius.large};
+  margin-left: calc(${({theme}) => theme.size.default} * 8);
+  margin-right: calc(${({theme}) => theme.size.default} * 8);
   width: 100%;
 
   > * {
@@ -60,21 +66,29 @@ const Container = styled(Box)`
   }
 `;
 
-export const StepSequencer = ({className = '', steps = [], style = {}}: StepSequencerProps) => {
-  const [activeStep, setActiveStep] = useState(0);
-  const handleUpdateStep = useCallback(setActiveStep, []);
+export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) => {
+  const {currentStep, isPlaying, setNextStep, steps, tempo} = useGlobalState(
+    ({currentStep, isPlaying, setNextStep, steps, tempo}) => ({
+      currentStep,
+      isPlaying,
+      setNextStep,
+      steps,
+      tempo,
+    })
+  );
 
-  // setInterval(() => {
-  //   console.log('activeStep', activeStep);
-  //   const nextStep = (activeStep + 1) % steps.length;
-  //   console.log('nextStep', nextStep);
-  //   handleUpdateStep(nextStep);
-  // }, 1000);
+  if (isPlaying) {
+    const stepDuration = ((tempo / 60) * 1000) / 4; // For 4/4 signature
+    console.log('stepDuration', stepDuration);
+    setInterval(() => {
+      setNextStep();
+    }, stepDuration);
+  }
 
   return (
     <Container className={className} style={style}>
-      {steps.map((step, i) => (
-        <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={activeStep === i ? 'true' : 'false'}>
+      {steps.map((step: null | StepType, i: number) => (
+        <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={currentStep === i ? 'true' : 'false'}>
           <StepNumber>{i + 1}</StepNumber>
           {step}
         </Step>

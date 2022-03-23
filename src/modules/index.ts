@@ -1,1 +1,1 @@
-export * from './drummachine';
+export * from './drum-machine';

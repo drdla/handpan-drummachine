@@ -29,8 +29,8 @@ const Instrument = styled(({mode, ...rest}) => <svg {...rest} />).attrs(({classN
   stroke-width: ${({theme}) => theme.border.width.strong};
 
   .handpan-element.active .playable-area {
-    fill: ${({theme}) => theme.color.primary.default};
-    stroke: ${({theme}) => theme.color.primary.default};
+    fill: ${({theme}) => transparentize(theme.color.primary.default, 34)};
+    stroke: ${({theme}) => transparentize(theme.color.primary.default, 34)};
   }
 
   ${({mode, theme}) =>
@@ -40,12 +40,12 @@ const Instrument = styled(({mode, ...rest}) => <svg {...rest} />).attrs(({classN
         cursor: pointer;
 
         .playable-area {
-          fill: ${theme.color.clickable.default};
-          stroke: ${theme.color.clickable.default};
+          fill: ${transparentize(theme.color.clickable.default, 34)};
+          stroke: ${transparentize(theme.color.clickable.default, 34)};
         }
 
         .unplayable-area {
-          stroke: ${theme.color.clickable.default};
+          stroke: ${transparentize(theme.color.clickable.default, 34)};
         }
       }
     `}
