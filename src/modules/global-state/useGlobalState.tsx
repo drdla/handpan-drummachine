@@ -64,12 +64,12 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     {
       tone: 'D-4',
       technique: {hand: 'right', finger: 'index-finger', stroke: 'full stroke'},
-      velocity: 1,
+      velocity: 0.6,
     },
     {
       tone: 'D-4',
       technique: {hand: 'right', finger: 'index-finger'},
-      velocity: 1,
+      velocity: 0.3,
     },
     null,
     [

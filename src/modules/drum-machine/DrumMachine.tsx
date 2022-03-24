@@ -87,8 +87,8 @@ export const DrumMachine = () => {
   );
 
   const pickStepValues = (step: Step) => ({
-    name: step?.tone?.replace('-', ''), // TODO: it _should_ accept midi note names, but it doesn't
-    // velocity: step?.velocity,
+    name: step?.tone,
+    velocity: step?.velocity || 1,
   });
   const mapStepData = (steps: Steps) =>
     steps.map((s) => {
@@ -138,18 +138,18 @@ export const DrumMachine = () => {
           steps={mapStepData(steps as Steps)}
           volume={percentToDecibel(volume.music) || undefined}
           mute={percentToDecibel(volume.music) === null}
-          onStepPlay={(step, i) => {
-            setStepIndex(i);
-          }}
+          onStepPlay={(_, i) => setStepIndex(i)}
         >
           <Instrument
             type="sampler"
             samples={{
-              A1,
-              D3: A1,
-              E3: A1,
+              'C-4': A1,
+              'D-4': A1,
+              'E-4': A1,
             }}
-            // notes={[{name: 'C3'}]}
+            onLoad={() => {
+              console.log('Samples loaded');
+            }}
           />
         </Track>
         <Track
