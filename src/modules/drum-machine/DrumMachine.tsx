@@ -106,8 +106,13 @@ export const DrumMachine = () => {
   };
 
   return (
-    <BaseLayout>
-      <Song bpm={tempo} isPlaying={isPlaying}>
+    <Song
+      bpm={tempo}
+      isPlaying={isPlaying}
+      volume={percentToDecibel(volume.master) || undefined}
+      isMuted={percentToDecibel(volume.master) === null}
+    >
+      <BaseLayout>
         <Track
           steps={mapStepData(steps as Step[])}
           volume={percentToDecibel(volume.music) || undefined}
@@ -138,32 +143,33 @@ export const DrumMachine = () => {
         >
           <Instrument type="sampler" samples={{A1: click}} />
         </Track>
-      </Song>
-      <Layout>
-        <Transport flexDirection="column" alignItems="center" justifyContent="center">
-          <TransportButtons />
-        </Transport>
-        <VolumeAndTempo>
-          <Box flexDirection="column" alignItems="center" justifyContent="center">
-            <TempoControl />
+
+        <Layout>
+          <Transport flexDirection="column" alignItems="center" justifyContent="center">
+            <TransportButtons />
+          </Transport>
+          <VolumeAndTempo>
+            <Box flexDirection="column" alignItems="center" justifyContent="center">
+              <TempoControl />
+            </Box>
+            <Box flexDirection="column" alignItems="center" justifyContent="center">
+              <VolumeControls />
+            </Box>
+          </VolumeAndTempo>
+          <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
+            <LeftHand finger={mapFingers('left')} />
           </Box>
-          <Box flexDirection="column" alignItems="center" justifyContent="center">
-            <VolumeControls />
+          <InstrumentPreview>
+            <Handpan active={steps?.[currentStep]?.tone} mode={mode} />
+          </InstrumentPreview>
+          <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
+            <RightHand finger={mapFingers('right')} />
           </Box>
-        </VolumeAndTempo>
-        <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-          <LeftHand finger={mapFingers('left')} />
-        </Box>
-        <InstrumentPreview>
-          <Handpan active={steps?.[currentStep]?.tone} mode={mode} />
-        </InstrumentPreview>
-        <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-          <RightHand finger={mapFingers('right')} />
-        </Box>
-        <Box style={{gridArea: 'footer'}}>
-          <StepSequencer />
-        </Box>
-      </Layout>
-    </BaseLayout>
+          <Box style={{gridArea: 'footer'}}>
+            <StepSequencer />
+          </Box>
+        </Layout>
+      </BaseLayout>
+    </Song>
   );
 };
