@@ -89,12 +89,20 @@ export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) 
 
   return (
     <Container className={className} style={style}>
-      {steps.map((step: null | StepType, i: number) => (
-        <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={isActive(i)}>
-          <StepNumber>{i + 1}</StepNumber>
-          {step && <Sound {...step} />}
-        </Step>
-      ))}
+      {steps.map((step: null | StepType | StepType[], i: number) => {
+        const stepz = (Array.isArray(step) ? step : [step]).filter(Boolean);
+
+        return (
+          <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={isActive(i)}>
+            <StepNumber>{i + 1}</StepNumber>
+            <Box flexDirection="column">
+              {stepz.map((s, ii) => (
+                <Sound key={ii} {...s} />
+              ))}
+            </Box>
+          </Step>
+        );
+      })}
     </Container>
   );
 };

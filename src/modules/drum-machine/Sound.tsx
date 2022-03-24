@@ -6,6 +6,8 @@ import {Hand} from '~/modules/hand';
 
 import {Box} from '~/components';
 
+import {spaceBetweenSelf} from '~/styles';
+
 type SoundProps = Step;
 
 const Tone = styled.div`
@@ -45,6 +47,8 @@ const Wrapper = styled(Box)`
     background: ${({theme}) => theme.color.background.clickable};
     border-color: ${({theme}) => theme.color.clickable.default};
   }
+
+  ${({theme}) => spaceBetweenSelf('tiny')}
 `;
 
 const abbr = {
@@ -56,10 +60,10 @@ const abbr = {
 
 export const Sound = memo(({tone, technique, velocity}: SoundProps) => (
   <Wrapper>
-    <Hand side={technique?.hand} finger={technique?.finger} asIcon />
+    <Hand side={technique?.hand} fingers={[technique?.finger]} asIcon />
     <Box flexDirection="column" justifyContent="center">
       <Tone>{tone}</Tone>
-      <Stroke>{abbr?.[technique?.stroke]}</Stroke>
+      <Stroke>{technique?.stroke && abbr?.[technique.stroke]}</Stroke>
     </Box>
   </Wrapper>
 ));

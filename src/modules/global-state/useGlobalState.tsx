@@ -3,6 +3,8 @@ import create, {GetState, SetState} from 'zustand';
 
 import {Step} from './types';
 
+export type Steps = (Step | Step[] | null)[];
+
 interface GlobalStore {
   changeTempo: (amount: number) => void;
   changeVolume: (category: 'master' | 'music' | 'click', value: number) => void;
@@ -10,13 +12,13 @@ interface GlobalStore {
   isPlaying: boolean;
   mode: 'record' | 'playback';
   setStepIndex: (index: number) => void;
-  steps: (Step | null)[];
+  steps: Steps;
   tempo: number;
   updateStep: (index: number, step: Step) => void;
   togglePlayback: () => void;
   volume: {
-    master: number;
     click: number;
+    master: number;
     music: number;
   };
 }
@@ -43,7 +45,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
       })
     );
   },
-  currentStep: 0,
+  currentStep: -1,
   isPlaying: false,
   mode: 'record',
   setStepIndex: (i) =>
@@ -70,11 +72,18 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
       velocity: 1,
     },
     null,
-    {
-      tone: 'E-4',
-      technique: {hand: 'left', finger: 'thumb', stroke: 'downstroke'},
-      velocity: 1,
-    },
+    [
+      {
+        tone: 'E-4',
+        technique: {hand: 'left', finger: 'thumb', stroke: 'downstroke'},
+        velocity: 1,
+      },
+      {
+        tone: 'C-4',
+        technique: {hand: 'left', finger: 'index-finger'},
+        velocity: 1,
+      },
+    ],
     null,
     null,
     null,
@@ -93,7 +102,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     set(
       produce((state) => {
         state.isPlaying = !isPlaying;
-        state.currentStep = 0;
+        state.currentStep = -1;
       })
     );
   },
@@ -101,7 +110,8 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     const {steps} = get();
 
     if (!Object.keys(steps).includes(`${index}`)) {
-      return; // not within the range of elements of the step array
+      console.error('Step to be updated not within the range of elements of the steps array.');
+      return;
     }
 
     set(
@@ -111,8 +121,8 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     );
   },
   volume: {
+    click: 0,
     master: 100,
     music: 100,
-    click: 0,
   },
 }));

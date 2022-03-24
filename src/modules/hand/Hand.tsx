@@ -3,7 +3,7 @@ import styled, {DefaultTheme} from 'styled-components';
 
 import {transparentize} from '~/lib';
 
-import {Finger, fingers} from './types';
+import {Finger, fingersList} from './types';
 
 const rightHandPaths = (
   <>
@@ -96,7 +96,7 @@ const leftHandPaths = (
 type HandProps = {
   asIcon: boolean;
   className?: string;
-  finger?: Finger;
+  fingers: Finger[];
   side?: 'left' | 'right';
   style?: CSSProperties;
 };
@@ -131,22 +131,22 @@ const HandShape = styled.svg.attrs(() => ({
   }
 
   .thumb {
-    fill: ${({finger, theme}) =>
-      finger === 'thumb' ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
+    fill: ${({fingers, theme}) =>
+      fingers.includes('thumb') ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
   }
 
-  ${({asIcon, finger, theme}) =>
-    fingers.map(
+  ${({asIcon, fingers, theme}) =>
+    fingersList.map(
       (f) => `
         .${f} {
-          fill: ${fingerColor(finger === f, asIcon, theme)};
+          fill: ${fingerColor(fingers.includes(f), asIcon, theme)};
         }
       `
     )}
 `;
 
-export const Hand = ({asIcon = false, className = '', finger, side = 'right', style = {}}: HandProps) => (
-  <HandShape finger={finger} className={className} style={style} asIcon={asIcon}>
+export const Hand = ({asIcon = false, className = '', fingers = [], side = 'right', style = {}}: HandProps) => (
+  <HandShape fingers={fingers} className={className} style={style} asIcon={asIcon}>
     {side === 'left' ? leftHandPaths : rightHandPaths}
   </HandShape>
 );

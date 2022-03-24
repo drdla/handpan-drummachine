@@ -1,7 +1,8 @@
-import {Effect, Instrument, Song, Track} from 'reactronica';
+import {Instrument, Song, Track} from 'reactronica';
 import styled from 'styled-components/macro';
 
-import {Hand} from '~/modules/hand';
+import {Step, Steps, useGlobalState} from '~/modules/global-state';
+import {Finger, Hand} from '~/modules/hand';
 import {Handpan} from '~/modules/handpan';
 
 import {Box, GridLayout} from '~/components';
@@ -12,7 +13,6 @@ import click from '~/assets/samples/click.mp3';
 import {percentToDecibel, transparentize} from '~/lib';
 import {size} from '~/styles';
 
-import {Step, useGlobalState} from '../global-state';
 import {StepSequencer} from './StepSequencer';
 import {TempoControl} from './TempoControl';
 import {TransportButtons} from './TransportButtons';
@@ -86,23 +86,44 @@ export const DrumMachine = () => {
     })
   );
 
-  const mapStepData = (steps: Step[]) =>
+  const pickStepValues = (step: Step) => ({
+    name: step?.tone?.replace('-', ''), // TODO: it _should_ accept midi note names, but it doesn't
+    // velocity: step?.velocity,
+  });
+  const mapStepData = (steps: Steps) =>
     steps.map((s) => {
       if (s === null) {
         return null;
       }
 
-      return {
-        name: s?.tone?.replace('-', ''), // TODO: it _should_ accept midi note names, but it doesn't
-        // velocity: s?.velocity,
-      };
-    });
-  const mapFingers = (hand: 'left' | 'right') => {
-    const t = steps[currentStep]?.technique;
+      const ss = (Array.isArray(s) ? s : [s]).filter(Boolean).map(pickStepValues);
 
-    if (t?.hand && t?.hand === hand) {
-      return t.finger;
+      return ss;
+    });
+
+  const activeElements = (step: Step) => {
+    if (!step) {
+      return [];
     }
+
+    const ss = (Array.isArray(step) ? step : [step]).filter(Boolean).map((step) => step?.tone);
+
+    return ss;
+  };
+
+  const mapFingers = (hand: 'left' | 'right'): [] | Finger[] => {
+    const step = steps[currentStep] as Step | Step[];
+
+    if (!step) {
+      return [];
+    }
+
+    const cur = Array.isArray(step) ? step : [step];
+
+    return cur
+      .filter((cs) => cs?.technique?.hand === hand)
+      .map((cs) => cs?.technique?.finger)
+      .filter(Boolean);
   };
 
   return (
@@ -114,7 +135,7 @@ export const DrumMachine = () => {
     >
       <BaseLayout>
         <Track
-          steps={mapStepData(steps as Step[])}
+          steps={mapStepData(steps as Steps)}
           volume={percentToDecibel(volume.music) || undefined}
           mute={percentToDecibel(volume.music) === null}
           onStepPlay={(step, i) => {
@@ -157,13 +178,13 @@ export const DrumMachine = () => {
             </Box>
           </VolumeAndTempo>
           <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-            <LeftHand finger={mapFingers('left')} />
+            <LeftHand fingers={mapFingers('left')} />
           </Box>
           <InstrumentPreview>
-            <Handpan active={steps?.[currentStep]?.tone} mode={mode} />
+            <Handpan active={activeElements(steps[currentStep])} mode={mode} />
           </InstrumentPreview>
           <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-            <RightHand finger={mapFingers('right')} />
+            <RightHand fingers={mapFingers('right')} />
           </Box>
           <Box style={{gridArea: 'footer'}}>
             <StepSequencer />
