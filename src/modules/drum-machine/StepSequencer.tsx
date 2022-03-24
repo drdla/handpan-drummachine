@@ -6,9 +6,10 @@ import {useGlobalState} from '~/modules/global-state';
 import type {Step as StepType} from '~/modules/global-state';
 
 import {Box} from '~/components';
-import {Sound} from './Sound';
 
 import {transparentize} from '~/lib';
+
+import {Sound} from './Sound';
 
 type SequencerStep = null | string;
 

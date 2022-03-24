@@ -1,5 +1,5 @@
-import {CSSProperties, useCallback} from 'react';
 import {borderRadius} from 'polished';
+import {CSSProperties, useCallback} from 'react';
 import styled from 'styled-components';
 
 import {useGlobalState} from '~/modules/global-state';

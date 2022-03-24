@@ -1,6 +1,5 @@
-import {useEffect, useRef, useState} from 'react';
+import {Effect, Instrument, Song, Track} from 'reactronica';
 import styled from 'styled-components/macro';
-import {Song, Track, Instrument, Effect} from 'reactronica';
 
 import {Hand} from '~/modules/hand';
 import {Handpan} from '~/modules/handpan';
@@ -9,14 +8,15 @@ import {Box, GridLayout} from '~/components';
 import BaseLayout from '~/components/templates/BaseLayout';
 
 import A1 from '~/assets/samples/A1.mp3';
+import click from '~/assets/samples/click.mp3';
 import {percentToDecibel, transparentize} from '~/lib';
 import {size} from '~/styles';
 
+import {Step, useGlobalState} from '../global-state';
 import {StepSequencer} from './StepSequencer';
 import {TempoControl} from './TempoControl';
 import {TransportButtons} from './TransportButtons';
 import {VolumeControls} from './VolumeControls';
-import {Step, useGlobalState} from '../global-state';
 
 const Transport = styled(Box)`
   grid-column-start: 2;
@@ -110,7 +110,8 @@ export const DrumMachine = () => {
       <Song bpm={tempo} isPlaying={isPlaying}>
         <Track
           steps={mapStepData(steps as Step[])}
-          volume={percentToDecibel(volume.music) || -100}
+          volume={percentToDecibel(volume.music) || undefined}
+          mute={percentToDecibel(volume.music) === null}
           onStepPlay={(step, i) => {
             setStepIndex(i);
           }}
@@ -118,12 +119,24 @@ export const DrumMachine = () => {
           <Instrument
             type="sampler"
             samples={{
-              C3: A1,
+              A1,
               D3: A1,
               E3: A1,
             }}
             // notes={[{name: 'C3'}]}
           />
+        </Track>
+        <Track
+          steps={[
+            {name: 'A1', velocity: 0.8},
+            {name: 'A1', velocity: 0.4},
+            {name: 'A1', velocity: 0.4},
+            {name: 'A1', velocity: 0.4},
+          ]}
+          volume={percentToDecibel(volume.click) || undefined}
+          mute={percentToDecibel(volume.click) === null}
+        >
+          <Instrument type="sampler" samples={{A1: click}} />
         </Track>
       </Song>
       <Layout>
@@ -142,7 +155,7 @@ export const DrumMachine = () => {
           <LeftHand finger={mapFingers('left')} />
         </Box>
         <InstrumentPreview>
-          <Handpan active={steps[currentStep] ? ['Tone1'] : undefined} mode={mode} />
+          <Handpan active={steps?.[currentStep]?.tone} mode={mode} />
         </InstrumentPreview>
         <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
           <RightHand finger={mapFingers('right')} />

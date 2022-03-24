@@ -3,7 +3,7 @@ import styled, {DefaultTheme} from 'styled-components';
 
 import {transparentize} from '~/lib';
 
-import {fingers, Finger} from './types';
+import {Finger, fingers} from './types';
 
 const rightHandPaths = (
   <>

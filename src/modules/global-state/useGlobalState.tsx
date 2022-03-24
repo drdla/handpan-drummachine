@@ -1,5 +1,6 @@
 import produce from 'immer';
 import create, {GetState, SetState} from 'zustand';
+
 import {Step} from './types';
 
 interface GlobalStore {
@@ -53,28 +54,28 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     ),
   steps: [
     {
-      tone: 'C-3',
+      tone: 'C-4',
       technique: {hand: 'left', finger: 'middle-finger', stroke: 'tap'},
-      velocity: 100,
+      velocity: 1,
     },
     null,
     {
-      tone: 'D-3',
-      technique: {hand: 'left', finger: 'index-finger', stroke: 'full stroke'},
-      velocity: 100,
+      tone: 'D-4',
+      technique: {hand: 'right', finger: 'index-finger', stroke: 'full stroke'},
+      velocity: 1,
     },
     {
-      tone: 'D-3',
-      technique: {hand: 'left', finger: 'index-finger'},
-      velocity: 100,
+      tone: 'D-4',
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
     },
-    null,
     null,
     {
-      tone: 'E-3',
-      technique: {hand: 'right', finger: 'thumb', stroke: 'downstroke'},
-      velocity: 100,
+      tone: 'E-4',
+      technique: {hand: 'left', finger: 'thumb', stroke: 'downstroke'},
+      velocity: 1,
     },
+    null,
     null,
     null,
     null,

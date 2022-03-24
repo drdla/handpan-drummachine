@@ -1,10 +1,10 @@
 import {memo} from 'react';
-
 import styled from 'styled-components/macro';
-import {Box} from '~/components';
-import {Hand} from '~/modules/hand';
 
 import type {Step} from '~/modules/global-state';
+import {Hand} from '~/modules/hand';
+
+import {Box} from '~/components';
 
 type SoundProps = Step;
 
