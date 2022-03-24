@@ -8,7 +8,7 @@ interface GlobalStore {
   currentStep: number;
   isPlaying: boolean;
   mode: 'record' | 'playback';
-  setNextStep: () => void;
+  setStepIndex: (index: number) => void;
   steps: (Step | null)[];
   tempo: number;
   updateStep: (index: number, step: Step) => void;
@@ -45,24 +45,29 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
   currentStep: 0,
   isPlaying: false,
   mode: 'record',
-  setNextStep: () => {
-    const {currentStep, steps} = get();
-
+  setStepIndex: (i) =>
     set(
       produce((state) => {
-        state.currentStep = (currentStep + 1) % steps.length;
+        state.currentStep = i;
       })
-    );
-  },
+    ),
   steps: [
-    null,
+    {
+      tone: 'C-3',
+      technique: {hand: 'left', finger: 'middle-finger', stroke: 'tap'},
+      velocity: 100,
+    },
     null,
     {
       tone: 'D-3',
       technique: {hand: 'left', finger: 'index-finger', stroke: 'full stroke'},
       velocity: 100,
     },
-    null,
+    {
+      tone: 'D-3',
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 100,
+    },
     null,
     null,
     {
@@ -87,6 +92,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     set(
       produce((state) => {
         state.isPlaying = !isPlaying;
+        state.currentStep = 0;
       })
     );
   },

@@ -7,7 +7,7 @@ export type Step = {
   technique: {
     hand: 'left' | 'right';
     finger: Finger;
-    stroke: Stroke;
+    stroke?: Stroke;
   };
   velocity: number;
 };

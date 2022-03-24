@@ -62,8 +62,8 @@ const Step = memo(styled(Box)<StepProps>`
 
 const Container = styled(Box)`
   border-radius: ${({theme}) => theme.border.radius.large};
-  margin-left: calc(${({theme}) => theme.size.default} * 8);
-  margin-right: calc(${({theme}) => theme.size.default} * 8);
+  margin-left: ${({theme}) => theme.size.huge};
+  margin-right: ${({theme}) => theme.size.huge};
   width: 100%;
 
   > * {
@@ -78,23 +78,11 @@ const Container = styled(Box)`
 `;
 
 export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) => {
-  const {currentStep, isPlaying, setNextStep, steps, tempo} = useGlobalState(
-    ({currentStep, isPlaying, setNextStep, steps, tempo}) => ({
-      currentStep,
-      isPlaying,
-      setNextStep,
-      steps,
-      tempo,
-    })
-  );
-
-  if (isPlaying) {
-    const stepDuration = ((tempo / 60) * 1000) / 4; // For 4/4 signature
-    console.log('stepDuration', stepDuration);
-    setInterval(() => {
-      setNextStep();
-    }, stepDuration);
-  }
+  const {currentStep, isPlaying, steps} = useGlobalState(({currentStep, isPlaying, steps}) => ({
+    currentStep,
+    isPlaying,
+    steps,
+  }));
 
   const isActive = (i: number) => (isPlaying && currentStep === i ? 'true' : 'false');
 

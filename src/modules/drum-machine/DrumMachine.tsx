@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components/macro';
-import {Sampler} from 'tone';
+import {Song, Track, Instrument, Effect} from 'reactronica';
 
 import {Hand} from '~/modules/hand';
 import {Handpan} from '~/modules/handpan';
@@ -9,14 +9,14 @@ import {Box, GridLayout} from '~/components';
 import BaseLayout from '~/components/templates/BaseLayout';
 
 import A1 from '~/assets/samples/A1.mp3';
-import {transparentize} from '~/lib';
+import {percentToDecibel, transparentize} from '~/lib';
 import {size} from '~/styles';
 
 import {StepSequencer} from './StepSequencer';
 import {TempoControl} from './TempoControl';
 import {TransportButtons} from './TransportButtons';
 import {VolumeControls} from './VolumeControls';
-import {useGlobalState} from '../global-state';
+import {Step, useGlobalState} from '../global-state';
 
 const Transport = styled(Box)`
   grid-column-start: 2;
@@ -74,36 +74,61 @@ const Layout = styled(GridLayout).attrs(() => ({
 `;
 
 export const DrumMachine = () => {
-  const {mode} = useGlobalState(({mode}) => ({mode}));
-  const [isLoaded, setLoaded] = useState(false);
-  const sampler = useRef(null);
+  const {currentStep, isPlaying, mode, setStepIndex, steps, tempo, volume} = useGlobalState(
+    ({currentStep, isPlaying, mode, setStepIndex, steps, tempo, volume}) => ({
+      currentStep,
+      isPlaying,
+      mode,
+      setStepIndex,
+      steps,
+      tempo,
+      volume,
+    })
+  );
 
-  useEffect(() => {
-    // https://github.com/Tonejs/Tone.js/wiki/Using-Tone.js-with-React-React-Typescript-or-Vue#react--typescript-caveats-typing-hooks-or-components-with-typescript-demo
-    sampler.current = new Sampler(
-      {A1},
-      {
-        onload: () => setLoaded(true),
+  const mapStepData = (steps: Step[]) =>
+    steps.map((s) => {
+      if (s === null) {
+        return null;
       }
-    ).toDestination();
-  }, []);
 
-  const handleClick = () => {
-    sampler.current.triggerAttack('A1');
+      return {
+        name: s?.tone?.replace('-', ''), // TODO: it _should_ accept midi note names, but it doesn't
+        // velocity: s?.velocity,
+      };
+    });
+  const mapFingers = (hand: 'left' | 'right') => {
+    const t = steps[currentStep]?.technique;
+
+    if (t?.hand && t?.hand === hand) {
+      return t.finger;
+    }
   };
-
-  const activeElements: string[] = []; // mock data; should be derived from current step
 
   return (
     <BaseLayout>
+      <Song bpm={tempo} isPlaying={isPlaying}>
+        <Track
+          steps={mapStepData(steps as Step[])}
+          volume={percentToDecibel(volume.music) || -100}
+          onStepPlay={(step, i) => {
+            setStepIndex(i);
+          }}
+        >
+          <Instrument
+            type="sampler"
+            samples={{
+              C3: A1,
+              D3: A1,
+              E3: A1,
+            }}
+            // notes={[{name: 'C3'}]}
+          />
+        </Track>
+      </Song>
       <Layout>
         <Transport flexDirection="column" alignItems="center" justifyContent="center">
           <TransportButtons />
-          {/*
-            <button onClick={handleClick} disabled={!isLoaded}>
-              start
-            </button>
-          */}
         </Transport>
         <VolumeAndTempo>
           <Box flexDirection="column" alignItems="center" justifyContent="center">
@@ -114,13 +139,13 @@ export const DrumMachine = () => {
           </Box>
         </VolumeAndTempo>
         <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-          <LeftHand finger={undefined} />
+          <LeftHand finger={mapFingers('left')} />
         </Box>
         <InstrumentPreview>
-          <Handpan active={activeElements} mode={mode} />
+          <Handpan active={steps[currentStep] ? ['Tone1'] : undefined} mode={mode} />
         </InstrumentPreview>
         <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-          <RightHand finger={undefined} />
+          <RightHand finger={mapFingers('right')} />
         </Box>
         <Box style={{gridArea: 'footer'}}>
           <StepSequencer />
