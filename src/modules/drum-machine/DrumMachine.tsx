@@ -101,7 +101,7 @@ export const DrumMachine = () => {
       return ss;
     });
 
-  const activeElements = (step: Step) => {
+  const activeElements = (step: Step | Step[]) => {
     if (!step) {
       return [];
     }
@@ -181,7 +181,7 @@ export const DrumMachine = () => {
             <LeftHand fingers={mapFingers('left')} />
           </Box>
           <InstrumentPreview>
-            <Handpan active={activeElements(steps[currentStep])} mode={mode} />
+            <Handpan active={activeElements(steps[currentStep] || [])} mode={mode} />
           </InstrumentPreview>
           <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
             <RightHand fingers={mapFingers('right')} />
