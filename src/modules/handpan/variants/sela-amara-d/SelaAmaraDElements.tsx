@@ -3,6 +3,7 @@ import clsx from 'clsx';
 interface HandpanElement {
   active?: boolean;
   className?: string;
+  onClick?: Function;
 }
 
 const baseClass = 'handpan-element';
@@ -14,15 +15,15 @@ export const Border = () => (
   </g>
 );
 
-export const Ding = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'ding', {active}, className)}>
+export const Ding = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'ding', {active}, className)} onClick={() => onClick('Ding')}>
     <ellipse cx="340.7" cy="330.5" className="unplayable-area" rx="112.7" ry="143" />
     <ellipse cx="340.7" cy="330.5" className="playable-area" rx="48.2" ry="61.2" />
   </g>
 );
 
-export const Tone1 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--1', {active}, className)}>
+export const Tone1 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--1', {active}, className)} onClick={() => onClick('Tone1')}>
     <path
       className="playable-area"
       d="M405.2 629c-38 0-66.8-15.7-73.4-40.1-9.1-33.5 26.6-72.4 79.5-86.7 13.1-3.5 26.2-5.3 38.9-5.3 38 0 66.8 15.7 73.4 40.1 4.4 16.2-1.4 34.1-16.4 50.5-15 16.4-37.4 29.3-63.1 36.2-13.1 3.5-26.2 5.3-38.9 5.3z"
@@ -34,8 +35,8 @@ export const Tone1 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone2 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--2', {active}, className)}>
+export const Tone2 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--2', {active}, className)} onClick={() => onClick('Tone2')}>
     <path
       className="playable-area"
       d="M209.2 584.2c-17.2 0-34.7-6.2-49.3-17.5-15.7-12.1-26.4-28.6-30.2-46.5-3.8-17.9-.2-35.1 10-48.4 10.8-14 28.1-22 47.6-22 17.2 0 34.7 6.2 49.3 17.5 32.3 24.9 41.3 67.5 20.2 94.9-10.8 14-28.1 22-47.6 22z"
@@ -47,8 +48,8 @@ export const Tone2 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone3 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--3', {active}, className)}>
+export const Tone3 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--3', {active}, className)} onClick={() => onClick('Tone3')}>
     <path
       className="playable-area"
       d="M577.5 459.8c-5.6 0-11.1-.9-16.4-2.7-14.2-4.9-25.4-15.7-31.6-30.5-6.2-14.8-6.5-31.9-1-48 9.2-26.7 32.3-44.7 57.5-44.7 5.6 0 11.1.9 16.4 2.7 14.2 4.9 25.4 15.7 31.6 30.5 6.2 14.8 6.5 31.9 1 48-9.2 26.8-32.3 44.7-57.5 44.7z"
@@ -60,8 +61,8 @@ export const Tone3 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone4 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--4', {active}, className)}>
+export const Tone4 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--4', {active}, className)} onClick={() => onClick('Tone4')}>
     <path
       className="playable-area"
       d="M96.1 425.5c-28.4 0-53.6-23.7-60.1-56.4-3.5-17.8-1-35.7 7.2-50.4 8.2-14.7 21-24.4 36.1-27.4 3.2-.6 6.4-.9 9.6-.9 28.4 0 53.6 23.7 60.1 56.4 3.5 17.8 1 35.7-7.2 50.4-8.2 14.7-21 24.4-36.1 27.4-3.1.6-6.4.9-9.6.9z"
@@ -73,8 +74,8 @@ export const Tone4 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone5 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--5', {active}, className)}>
+export const Tone5 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--5', {active}, className)} onClick={() => onClick('Tone5')}>
     <path
       className="playable-area"
       d="M564.7 272.8c-22.4 0-42.7-17.2-49.3-41.8-7.9-29.1 6.4-58.4 31.8-65.2 3.6-1 7.3-1.5 11-1.5 22.4 0 42.7 17.2 49.3 41.8 3.8 14.1 2.6 28.7-3.4 41S588 268 575.7 271.3c-3.6 1-7.3 1.5-11 1.5z"
@@ -86,8 +87,8 @@ export const Tone5 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone6 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--6', {active}, className)}>
+export const Tone6 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--6', {active}, className)} onClick={() => onClick('Tone6')}>
     <path
       className="playable-area"
       d="M127.1 246.7c-8 0-15.6-1.9-22.6-5.6-12.2-6.5-21-17.8-24.7-31.8-3.7-14-1.8-29.2 5.3-42.5 10.1-19.1 29.6-31.4 49.8-31.4 8 0 15.6 1.9 22.6 5.6 12.2 6.5 21 17.8 24.7 31.8 3.7 14 1.8 29.2-5.3 42.5-10.1 19.1-29.7 31.4-49.8 31.4z"
@@ -99,8 +100,8 @@ export const Tone6 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone7 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--7', {active}, className)}>
+export const Tone7 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--7', {active}, className)} onClick={() => onClick('Tone7')}>
     <path
       className="playable-area"
       d="M436.2 151.3c-9.5 0-19.2-2.4-27.8-7-27.2-14.4-38.7-46.3-25.5-71.2 8.5-16.1 25.9-26 45.3-26 9.5 0 19.2 2.4 27.8 7 13.2 7 23.1 18.2 27.9 31.7 4.8 13.4 4 27.5-2.4 39.5-8.4 16-25.8 26-45.3 26z"
@@ -112,8 +113,8 @@ export const Tone7 = ({className, active}: HandpanElement) => (
   </g>
 );
 
-export const Tone8 = ({className, active}: HandpanElement) => (
-  <g className={clsx(baseClass, 'tone--8', {active}, className)}>
+export const Tone8 = ({className, active, onClick = () => {}}: HandpanElement) => (
+  <g className={clsx(baseClass, 'tone--8', {active}, className)} onClick={() => onClick('Tone8')}>
     <path
       className="playable-area"
       d="M261.1 134.4c-17.1 0-31.5-8.3-37.7-21.8-9.3-20.3 3-45.8 27.3-57 7.4-3.4 15.5-5.2 23.3-5.2 17.1 0 31.5 8.3 37.7 21.8 9.3 20.3-3 45.8-27.3 57-7.4 3.4-15.5 5.2-23.3 5.2z"

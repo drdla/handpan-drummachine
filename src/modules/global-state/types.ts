@@ -3,6 +3,7 @@ import {Finger} from '~/modules/hand';
 export type Stroke = 'downstroke' | 'upstroke' | 'full stroke' | 'tap';
 
 export type Step = {
+  id: string;
   tone: MidiNote;
   technique: {
     hand: 'left' | 'right';

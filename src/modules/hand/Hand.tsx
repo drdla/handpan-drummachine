@@ -5,7 +5,7 @@ import {transparentize} from '~/lib';
 
 import {Finger, fingersList} from './types';
 
-const rightHandPaths = (
+const RightHandPaths = ({onClick}: {onClick: Function}) => (
   <>
     <path
       className="hand"
@@ -22,33 +22,38 @@ const rightHandPaths = (
     />
     <path
       className="finger little-finger"
+      onClick={() => onClick('little-finger')}
       d="M212.5,87.6l0.5-23.7c0.1-11.8,8.3-20.5,17.4-20.7c11.3-0.3,18.2,7.7,19,18.5c0.5,7.3,1.2,16.5,1.8,26.2
 	c-5.7,3.1-12.2,4.9-19.2,4.9C224.9,92.8,218.2,90.9,212.5,87.6z"
     />
     <path
       className="finger ring-finger"
+      onClick={() => onClick('ring-finger')}
       d="M151.3,67.1c-3.4,0-6.8-0.4-10-1.3l-7.6-26.1c-3.1-10.6,2.9-21,13.5-24.1c10.9-3.2,21.4,2.9,24.4,13
 	l8.1,26.5C172.5,62.5,162.4,67.1,151.3,67.1z"
     />
     <path
       className="finger middle-finger"
+      onClick={() => onClick('middle-finger')}
       d="M74.5,35.1c10.4-5.7,22-2.5,27.6,7.9c1.6,2.8,6.4,12.1,12.9,24.5c-7.1,10.8-19.3,18-33.3,18
 	c-1.2,0-2.5-0.1-3.7-0.2L65.2,61.7C59.3,50.8,64.2,40.7,74.5,35.1z"
     />
     <path
       className="finger index-finger"
+      onClick={() => onClick('index-finger')}
       d="M19.9,82.7c8.9-7.6,20.8-5.1,28,3.4c2.2,2.7,9.3,11.5,18.5,22.8c-5.7,13.1-18.3,22.6-33.2,23.8
 	l-16.8-22.3C9.7,99.4,11.6,89.8,19.9,82.7z"
     />
     <path
       className="finger thumb"
+      onClick={() => onClick('thumb')}
       d="M91.8,273.6c0,9-3,17.3-8.1,24c-14.3-6.4-28.9-13.1-43.9-17.8c-12.2-3.4-19.8-11.1-20.2-20.1
 	c-0.3-9,7.5-18.1,18.1-21.4c8.5-2.5,16.5-3.4,24-3.2C79,239.4,91.8,255,91.8,273.6z"
     />
   </>
 );
 
-const leftHandPaths = (
+const LeftHandPaths = ({onClick}: {onClick: Function}) => (
   <>
     <path
       className="hand"
@@ -65,27 +70,32 @@ const leftHandPaths = (
     />
     <path
       className="finger little-finger"
+      onClick={() => onClick('little-finger')}
       d="M115.8,87.6l-0.5-23.7
 	c-0.1-11.8-8.3-20.5-17.4-20.7c-11.3-0.3-18.2,7.7-19,18.5c-0.5,7.3-1.2,16.5-1.8,26.2c5.7,3.1,12.2,4.9,19.2,4.9
 	C103.4,92.8,110,90.9,115.8,87.6z"
     />
     <path
       className="finger ring-finger"
+      onClick={() => onClick('ring-finger')}
       d="M177,67.1c3.4,0,6.8-0.4,10-1.3l7.6-26.1
 	c3.1-10.6-2.9-21-13.5-24.1c-10.9-3.2-21.4,2.9-24.4,13l-8.1,26.5C155.8,62.5,165.9,67.1,177,67.1z"
     />
     <path
       className="finger middle-finger"
+      onClick={() => onClick('middle-finger')}
       d="M253.8,35.1c-10.4-5.7-22-2.5-27.6,7.9
 	c-1.6,2.8-6.4,12.1-12.9,24.5c7.1,10.8,19.3,18,33.3,18c1.2,0,2.5-0.1,3.7-0.2l12.9-23.7C269,50.8,264.1,40.7,253.8,35.1z"
     />
     <path
       className="finger index-finger"
+      onClick={() => onClick('index-finger')}
       d="M308.4,82.7c-8.9-7.6-20.8-5.1-28,3.4
 	c-2.2,2.7-9.3,11.5-18.5,22.8c5.7,13.1,18.3,22.6,33.2,23.8l16.8-22.3C318.6,99.4,316.7,89.8,308.4,82.7z"
     />
     <path
       className="finger thumb"
+      onClick={() => onClick('thumb')}
       d="M236.5,273.6c0,9,3,17.3,8.1,24
 	c14.3-6.4,28.9-13.1,43.9-17.8c12.2-3.4,19.8-11.1,20.2-20.1c0.3-9-7.5-18.1-18.1-21.4c-8.5-2.5-16.5-3.4-24-3.2
 	C249.3,239.4,236.5,255,236.5,273.6z"
@@ -94,9 +104,11 @@ const leftHandPaths = (
 );
 
 type HandProps = {
-  asIcon: boolean;
+  asIcon?: boolean;
+  canSelect: boolean;
   className?: string;
   fingers: Finger[];
+  onClick?: Function;
   side?: 'left' | 'right';
   style?: CSSProperties;
 };
@@ -114,7 +126,7 @@ const fingerColor = (highlight: boolean = false, asIcon: boolean = false, theme:
 };
 
 const HandShape = styled.svg.attrs(() => ({
-  className: 'hand-shape',
+  className: 'hand-shape' as string,
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 328 400',
 }))<Omit<HandProps, 'side'>>`
@@ -122,18 +134,25 @@ const HandShape = styled.svg.attrs(() => ({
     fill: ${({theme}) => theme.color.background.default};
   }
 
-  .finger {
-    :hover {
-      cursor: pointer;
-      fill: ${({theme}) => transparentize(theme.color.clickable.highlight, 34)};
-      stroke: ${({theme}) => transparentize(theme.color.clickable.default, 34)};
-    }
-  }
+  ${({canSelect, theme}) =>
+    canSelect &&
+    `
+      /*
+       * 1 - Make all clickable elements discoverable by highlighting them.
+       */
 
-  .thumb {
-    fill: ${({fingers, theme}) =>
-      fingers.includes('thumb') ? transparentize(theme.color.primary.default, 34) : theme.color.transparent};
-  }
+      .hand:hover ~ .finger {
+        fill: ${transparentize(theme.color.clickable.highlight, 79)}; /* 1 */
+      }
+
+      .finger {
+        :hover {
+          cursor: pointer;
+          fill: ${transparentize(theme.color.clickable.highlight, 34)};
+          stroke: ${transparentize(theme.color.clickable.default, 34)};
+        }
+      }
+    `}
 
   ${({asIcon, fingers, theme}) =>
     fingersList.map(
@@ -145,8 +164,20 @@ const HandShape = styled.svg.attrs(() => ({
     )}
 `;
 
-export const Hand = ({asIcon = false, className = '', fingers = [], side = 'right', style = {}}: HandProps) => (
-  <HandShape fingers={fingers} className={className} style={style} asIcon={asIcon}>
-    {side === 'left' ? leftHandPaths : rightHandPaths}
+export const Hand = ({
+  asIcon = false,
+  className = '',
+  canSelect = false,
+  fingers = [],
+  onClick = () => {},
+  side = 'right',
+  style = {},
+}: HandProps) => (
+  <HandShape fingers={fingers} className={className} style={style} asIcon={asIcon} canSelect={canSelect}>
+    {side === 'left' ? (
+      <LeftHandPaths onClick={canSelect ? onClick : () => {}} />
+    ) : (
+      <RightHandPaths onClick={canSelect ? onClick : () => {}} />
+    )}
   </HandShape>
 );

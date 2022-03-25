@@ -6,8 +6,6 @@ import {Hand} from '~/modules/hand';
 
 import {Box} from '~/components';
 
-import {spaceBetweenSelf} from '~/styles';
-
 type SoundProps = Step;
 
 const Tone = styled.div`
@@ -32,6 +30,7 @@ const Wrapper = styled(Box)`
   border-color: ${({theme}) => theme.color.border.lightest};
   border-radius: ${({theme}) => theme.border.radius.default};
   padding: ${({theme}) => theme.size.tiny} ${({theme}) => theme.size.small};
+  width: 100%;
 
   .hand-shape {
     height: ${({theme}) => theme.size.large};
@@ -42,13 +41,6 @@ const Wrapper = styled(Box)`
       stroke-width: 6px;
     }
   }
-
-  :hover {
-    background: ${({theme}) => theme.color.background.clickable};
-    border-color: ${({theme}) => theme.color.clickable.default};
-  }
-
-  ${({theme}) => spaceBetweenSelf('tiny')}
 `;
 
 const abbr = {

@@ -1,3 +1,4 @@
+import {useCallback} from 'react';
 import {MidiNote} from '~/modules/global-state';
 
 import {activeHandpanElements} from '../../Handpan';
@@ -55,7 +56,7 @@ const toneMap: {
   },
 ];
 
-export const SelaAmaraD = ({active = []}: activeHandpanElements) => {
+export const SelaAmaraD = ({active = [], onClick = () => {}}: activeHandpanElements & {onClick: Function}) => {
   const isActive = (name: string) => {
     const element = toneMap.find((t) => t.name === name);
     const note = element?.note || '';
@@ -63,18 +64,20 @@ export const SelaAmaraD = ({active = []}: activeHandpanElements) => {
     return active.includes(note);
   };
 
+  const handleClick = useCallback((element) => onClick(toneMap.find(({name}) => name === element)?.note), [onClick]);
+
   return (
     <>
       <Border />
-      <Ding active={isActive('Ding')} />
-      <Tone1 active={isActive('Tone1')} />
-      <Tone2 active={isActive('Tone2')} />
-      <Tone3 active={isActive('Tone3')} />
-      <Tone4 active={isActive('Tone4')} />
-      <Tone5 active={isActive('Tone5')} />
-      <Tone6 active={isActive('Tone6')} />
-      <Tone7 active={isActive('Tone7')} />
-      <Tone8 active={isActive('Tone8')} />
+      <Ding active={isActive('Ding')} onClick={handleClick} />
+      <Tone1 active={isActive('Tone1')} onClick={handleClick} />
+      <Tone2 active={isActive('Tone2')} onClick={handleClick} />
+      <Tone3 active={isActive('Tone3')} onClick={handleClick} />
+      <Tone4 active={isActive('Tone4')} onClick={handleClick} />
+      <Tone5 active={isActive('Tone5')} onClick={handleClick} />
+      <Tone6 active={isActive('Tone6')} onClick={handleClick} />
+      <Tone7 active={isActive('Tone7')} onClick={handleClick} />
+      <Tone8 active={isActive('Tone8')} onClick={handleClick} />
     </>
   );
 };

@@ -8,6 +8,7 @@ import type {Step as StepType} from '~/modules/global-state';
 import {Box} from '~/components';
 
 import {transparentize} from '~/lib';
+import {spaceBetweenSelf} from '~/styles';
 
 import {Sound} from './Sound';
 
@@ -51,14 +52,6 @@ const Step = memo(styled(Box)<StepProps>`
         box-shadow: 0 0 1px ${theme.size.tiny} ${transparentize(theme.color.primary.default, 55)};
         color: ${theme.color.text.default};
       `}
-
-  :hover {
-    background: ${({theme}) => theme.color.background.clickable};
-    border-color: ${({theme}) => theme.color.clickable.default};
-    color: ${({theme}) => theme.color.text.default};
-    cursor: pointer;
-    z-index: ${({theme}) => theme.zIndex.elevated1};
-  }
 `);
 
 const Container = styled(Box)`
@@ -78,12 +71,35 @@ const Container = styled(Box)`
   }
 `;
 
+const SoundWrapper = styled(Box)<{selected: boolean}>`
+  ${spaceBetweenSelf('tiny')}
+
+  :hover > ${Box} {
+    background: ${({theme}) => theme.color.background.clickable};
+    border-color: ${({theme}) => theme.color.clickable.default};
+    cursor: pointer;
+  }
+
+  ${({selected, theme}) =>
+    selected &&
+    `
+      > ${Box} {
+        background: ${theme.color.primary.lightest} !important;
+        border-color: ${theme.color.primary.default} !important;
+      }
+    `}
+`;
+
 export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) => {
-  const {currentStep, isPlaying, steps} = useGlobalState(({currentStep, isPlaying, steps}) => ({
-    currentStep,
-    isPlaying,
-    steps,
-  }));
+  const {currentStep, isPlaying, selectSound, selectedSound, steps} = useGlobalState(
+    ({currentStep, isPlaying, selectSound, selectedSound, steps}) => ({
+      currentStep,
+      isPlaying,
+      selectSound,
+      selectedSound,
+      steps,
+    })
+  );
 
   const isActive = (i: number) => (isPlaying && currentStep === i ? 'true' : 'false');
 
@@ -96,9 +112,14 @@ export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) 
           <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={isActive(i)}>
             <StepNumber>{i + 1}</StepNumber>
             <Box flexDirection="column">
-              {stepz.map((s, ii) => (
-                <Sound key={ii} {...s} />
-              ))}
+              {stepz.map(
+                (s, ii) =>
+                  s && (
+                    <SoundWrapper key={ii} onClick={() => selectSound(i, s.id)} selected={selectedSound === s.id}>
+                      <Sound {...s} />
+                    </SoundWrapper>
+                  )
+              )}
             </Box>
           </Step>
         );

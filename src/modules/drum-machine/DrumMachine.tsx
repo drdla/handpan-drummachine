@@ -1,3 +1,4 @@
+import {useCallback, useState} from 'react';
 import {Instrument, Song, Track} from 'reactronica';
 import styled from 'styled-components/macro';
 
@@ -75,17 +76,26 @@ const Layout = styled(GridLayout).attrs(() => ({
 `;
 
 export const DrumMachine = () => {
-  const {currentStep, isPlaying, mode, setStepIndex, steps, tempo, volume} = useGlobalState(
-    ({currentStep, isPlaying, mode, setStepIndex, steps, tempo, volume}) => ({
-      currentStep,
-      isPlaying,
-      mode,
-      setStepIndex,
-      steps,
-      tempo,
-      volume,
-    })
-  );
+  const {currentStep, isPlaying, selectedSound, setReadyState, setStepIndex, steps, tempo, updateStep, volume} =
+    useGlobalState(
+      ({currentStep, isPlaying, selectedSound, setReadyState, setStepIndex, steps, tempo, updateStep, volume}) => ({
+        currentStep,
+        isPlaying,
+        selectedSound,
+        setReadyState,
+        setStepIndex,
+        steps,
+        tempo,
+        updateStep,
+        volume,
+      })
+    );
+  const handleHandClick = useCallback((hand, finger) => {
+    updateStep({technique: {hand, finger}});
+  }, []);
+  const handleHandpanClick = useCallback((element) => {
+    updateStep({tone: element});
+  }, []);
 
   const pickStepValues = (step: Step) => {
     const isQuietStroke = step?.technique?.stroke && ['tap', 'upstroke'].includes(step?.technique?.stroke);
@@ -132,6 +142,8 @@ export const DrumMachine = () => {
       .filter(Boolean);
   };
 
+  const canSelect = Boolean(selectedSound);
+
   return (
     <Song
       bpm={tempo}
@@ -154,7 +166,8 @@ export const DrumMachine = () => {
               'E-4': A1,
             }}
             onLoad={() => {
-              console.log('Samples loaded');
+              setReadyState();
+              console.info('Samples loaded');
             }}
           />
         </Track>
@@ -190,13 +203,25 @@ export const DrumMachine = () => {
             </Box>
           </VolumeAndTempo>
           <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-            <LeftHand fingers={mapFingers('left')} />
+            <LeftHand
+              fingers={mapFingers('left')}
+              onClick={(finger: Finger): void => handleHandClick('left', finger)}
+              canSelect={canSelect}
+            />
           </Box>
           <InstrumentPreview>
-            <Handpan active={activeElements(steps[currentStep] || [])} mode={mode} />
+            <Handpan
+              active={activeElements(steps[currentStep] || [])}
+              canSelect={canSelect}
+              onClick={(element: string): void => handleHandpanClick(element)}
+            />
           </InstrumentPreview>
           <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-            <RightHand fingers={mapFingers('right')} />
+            <RightHand
+              fingers={mapFingers('right')}
+              onClick={(finger: Finger): void => handleHandClick('right', finger)}
+              canSelect={canSelect}
+            />
           </Box>
           <Box style={{gridArea: 'footer'}}>
             <StepSequencer />
