@@ -29,7 +29,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
 
     set(
       produce((state) => {
-        state.tempo = Math.min(Math.max(tempo + amount, 20), 240);
+        state.tempo = Math.min(Math.max(tempo + amount, 20), 300);
       })
     );
   },

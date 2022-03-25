@@ -7,7 +7,6 @@ import {useGlobalState} from '~/modules/global-state';
 import {Box, Unit} from '~/components';
 
 import {i18n} from '~/lib';
-import {aspectRatio} from '~/styles';
 
 type TempoControlProps = {
   className?: string;
