@@ -9,7 +9,8 @@ import {Box, GridLayout} from '~/components';
 import BaseLayout from '~/components/templates/BaseLayout';
 
 import A1 from '~/assets/samples/A1.mp3';
-import click from '~/assets/samples/click.mp3';
+import ClickHigh from '~/assets/samples/click--high.mp3';
+import ClickLow from '~/assets/samples/click--low.mp3';
 import {percentToDecibel, transparentize} from '~/lib';
 import {size} from '~/styles';
 
@@ -154,15 +155,21 @@ export const DrumMachine = () => {
         </Track>
         <Track
           steps={[
-            {name: 'A1', velocity: 0.8},
-            {name: 'A1', velocity: 0.4},
-            {name: 'A1', velocity: 0.4},
-            {name: 'A1', velocity: 0.4},
+            {name: 'C-1', velocity: 0.7},
+            {name: 'D-1', velocity: 0.7},
+            {name: 'D-1', velocity: 0.7},
+            {name: 'D-1', velocity: 0.7},
           ]}
           volume={percentToDecibel(volume.click) || undefined}
           mute={percentToDecibel(volume.click) === null}
         >
-          <Instrument type="sampler" samples={{A1: click}} />
+          <Instrument
+            type="sampler"
+            samples={{
+              'C-1': ClickHigh,
+              'D-1': ClickLow,
+            }}
+          />
         </Track>
 
         <Layout>
