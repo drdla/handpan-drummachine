@@ -87,10 +87,15 @@ export const DrumMachine = () => {
     })
   );
 
-  const pickStepValues = (step: Step) => ({
-    name: step?.tone,
-    velocity: step?.velocity || 1,
-  });
+  const pickStepValues = (step: Step) => {
+    const isQuietStroke = step?.technique?.stroke && ['tap', 'upstroke'].includes(step?.technique?.stroke);
+    const velocity = (step?.velocity || 1) * (isQuietStroke ? 0.2 : 1);
+
+    return {
+      name: step?.tone,
+      velocity,
+    };
+  };
   const mapStepData = (steps: Steps) =>
     steps.map((s) => {
       if (s === null) {
