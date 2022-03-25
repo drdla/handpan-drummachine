@@ -52,7 +52,7 @@ const toneMap: {
   {
     number: 9,
     name: 'Ding',
-    note: 'C-1' as MidiNote,
+    note: 'D-3' as MidiNote,
   },
 ];
 

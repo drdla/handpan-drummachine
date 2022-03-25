@@ -12,7 +12,6 @@ const Tone = styled.div`
   color: ${({theme}) => theme.color.text.default};
   font-size: ${({theme}) => theme.font.size.default};
   line-height: 1;
-  padding-left: ${({theme}) => theme.size.small};
   white-space: nowrap;
 `;
 
@@ -20,7 +19,6 @@ const Stroke = styled.div`
   color: ${({theme}) => theme.color.text.lighter};
   font-size: ${({theme}) => theme.font.size.default};
   line-height: 1;
-  padding-left: ${({theme}) => theme.size.small};
   white-space: nowrap;
 `;
 
@@ -52,10 +50,15 @@ const abbr = {
 
 export const Sound = memo(({tone, technique, velocity}: SoundProps) => (
   <Wrapper>
-    <Hand side={technique?.hand} fingers={[technique?.finger]} asIcon />
-    <Box flexDirection="column" justifyContent="center">
+    {technique?.hand === 'left' && <Hand side="left" fingers={[technique?.finger]} canSelect={false} asIcon />}
+    <Box
+      flexDirection="column"
+      justifyContent="center"
+      style={{[`padding${technique?.hand === 'left' ? 'Left' : 'Right'}`]: '7px'}}
+    >
       <Tone>{tone}</Tone>
       <Stroke>{technique?.stroke && abbr?.[technique.stroke]}</Stroke>
     </Box>
+    {technique?.hand === 'right' && <Hand side="right" fingers={[technique?.finger]} canSelect={false} asIcon />}
   </Wrapper>
 ));

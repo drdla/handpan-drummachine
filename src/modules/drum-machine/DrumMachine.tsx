@@ -9,7 +9,15 @@ import {Handpan} from '~/modules/handpan';
 import {Box, GridLayout} from '~/components';
 import BaseLayout from '~/components/templates/BaseLayout';
 
-import A1 from '~/assets/samples/A1.mp3';
+import A3 from '~/assets/samples/A3.mp3';
+import A4 from '~/assets/samples/A4.mp3';
+import C4 from '~/assets/samples/C4.mp3';
+import C5 from '~/assets/samples/C5.mp3';
+import D3 from '~/assets/samples/D3.mp3';
+import D4 from '~/assets/samples/D4.mp3';
+import E4 from '~/assets/samples/E4.mp3';
+import F4 from '~/assets/samples/F4.mp3';
+import G4 from '~/assets/samples/G4.mp3';
 import ClickHigh from '~/assets/samples/click--high.mp3';
 import ClickLow from '~/assets/samples/click--low.mp3';
 import {percentToDecibel, transparentize} from '~/lib';
@@ -161,9 +169,15 @@ export const DrumMachine = () => {
           <Instrument
             type="sampler"
             samples={{
-              'C-4': A1,
-              'D-4': A1,
-              'E-4': A1,
+              'A-3': A3,
+              'D-3': D3,
+              'A-4': A4,
+              'C-4': C4,
+              'D-4': D4,
+              'E-4': E4,
+              'F-4': F4,
+              'G-4': G4,
+              'C-5': C5,
             }}
             onLoad={() => {
               setReadyState();

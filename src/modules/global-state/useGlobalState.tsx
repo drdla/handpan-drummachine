@@ -35,7 +35,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
 
     set(
       produce((state) => {
-        state.tempo = Math.min(Math.max(tempo + amount, 20), 300);
+        state.tempo = Math.min(Math.max(tempo + amount, 20), 400);
       })
     );
   },
@@ -87,48 +87,100 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
   steps: [
     {
       id: 'ccd65bd6-0e4a-48b3-aef9-3fc77e9c9e63',
-      tone: 'C-4' as MidiNote,
-      technique: {hand: 'left', finger: 'middle-finger', stroke: 'tap'},
+      tone: 'A-3' as MidiNote,
+      technique: {hand: 'right', finger: 'thumb'},
       velocity: 1,
     },
-    null,
     {
       id: '1582814c-bf8f-4689-b5fa-2c52d5661cd9',
-      tone: 'D-4' as MidiNote,
-      technique: {hand: 'right', finger: 'index-finger', stroke: 'full stroke'},
+      tone: 'C-4' as MidiNote,
+      technique: {hand: 'left', finger: 'thumb'},
       velocity: 1,
     },
     {
       id: 'cb43bf53-04a3-48eb-93a4-0176d8277ea7',
-      tone: 'C-4' as MidiNote,
-      technique: {hand: 'left', finger: 'middle-finger', stroke: 'upstroke'},
+      tone: 'D-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
       velocity: 1,
     },
-    null,
-    [
-      {
-        id: 'c1d71115-b74f-4587-8132-bbf9bd0d8db9',
-        tone: 'E-4' as MidiNote,
-        technique: {hand: 'left', finger: 'middle-finger', stroke: 'downstroke'},
-        velocity: 1,
-      },
-      {
-        id: 'b5c8fa78-4eb9-4dd9-b098-244bb425c79a',
-        tone: 'C-4' as MidiNote,
-        technique: {hand: 'left', finger: 'thumb'},
-        velocity: 1,
-      },
-    ],
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+      id: 'b5c8fa78-4eb9-4dd9-b098-244bb425c79a',
+      tone: 'E-4' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1d71115-b74f-4587-8132-bbf9bd0d8db9',
+      tone: 'F-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71115-b74f-4587-8132-bbf9bd0d8db9',
+      tone: 'G-4' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71115-b74f-2587-8132-bbf9bd0d8db9',
+      tone: 'A-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71225-b74f-2587-8132-bbf9bd0d8db9',
+      tone: 'C-5' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'ccd65bd6-0e4a-48b3-aef9-3fc77e9c9e43',
+      tone: 'A-3' as MidiNote,
+      technique: {hand: 'right', finger: 'thumb'},
+      velocity: 1,
+    },
+    {
+      id: '1582814c-bf8f-4689-b5fa-2c52d56a1cd9',
+      tone: 'C-4' as MidiNote,
+      technique: {hand: 'left', finger: 'thumb'},
+      velocity: 1,
+    },
+    {
+      id: 'cb43bf53-04a3-48eb-93a4-0176d8237ea7',
+      tone: 'D-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'b5c8fa78-4eb9-4dd9-b098-244bb42sc79a',
+      tone: 'E-4' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1d71115-b74f-4587-8132-bbf9bd0dtdb9',
+      tone: 'F-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71115-b74f-4587-8132-bbf9bd0d1db9',
+      tone: 'G-4' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71112-b74f-2587-8132-bbf9bd0d8db9',
+      tone: 'A-4' as MidiNote,
+      technique: {hand: 'right', finger: 'index-finger'},
+      velocity: 1,
+    },
+    {
+      id: 'c1r71225-b74f-2587-8132-bbf9bd0d8db9',
+      tone: 'C-5' as MidiNote,
+      technique: {hand: 'left', finger: 'index-finger'},
+      velocity: 1,
+    },
   ],
   tempo: 120,
   togglePlayback: () => {

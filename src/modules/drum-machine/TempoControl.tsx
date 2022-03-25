@@ -80,8 +80,8 @@ export const TempoControl = ({className, style}: TempoControlProps) => {
         </div>
       </Tempo>
       <Box>
-        <StepperButton onClick={handleTempoIncrease}>+</StepperButton>
         <StepperButton onClick={handleTempoDecrease}>-</StepperButton>
+        <StepperButton onClick={handleTempoIncrease}>+</StepperButton>
       </Box>
     </StyledTempoControl>
   );
