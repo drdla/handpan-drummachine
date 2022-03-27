@@ -1,6 +1,7 @@
 import {size as polishedSize} from 'polished';
-import {CSSProperties, memo, useCallback, useState} from 'react';
-import styled, {ThemeSize} from 'styled-components';
+import {CSSProperties, memo} from 'react';
+import {useKeyPressEvent} from 'react-use';
+import styled from 'styled-components/macro';
 
 import {Box} from '~/components';
 
@@ -41,12 +42,15 @@ const Button = styled(Box)<{disabled: boolean}>`
   }
 `;
 
+const spacebar = ' ';
+
 export const TransportButtons = memo<TransportButtonsProps>(({className, style}) => {
   const {isReady, isPlaying, togglePlayback} = useGlobalState(({isReady, isPlaying, togglePlayback}) => ({
     isReady,
     isPlaying,
     togglePlayback,
   }));
+  useKeyPressEvent(spacebar, () => isReady && togglePlayback());
 
   return (
     <Box className={className} style={style}>
