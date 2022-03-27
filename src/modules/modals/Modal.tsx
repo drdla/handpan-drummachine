@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import {useModal} from './useModal';
 
 import {Box, Button} from '~/components';
+
 import {transparentize} from '~/lib';
+
+import {useModal} from './useModal';
 
 const Backdrop = styled(Box)`
   align-items: center;

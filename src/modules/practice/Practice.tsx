@@ -9,6 +9,7 @@ import {DrumMachine} from '~/modules/drum-machine';
 import {Box} from '~/components';
 
 import {i18n} from '~/lib';
+
 import {learningSteps} from '../learning-path/learningSteps';
 import {useModal} from '../modals';
 

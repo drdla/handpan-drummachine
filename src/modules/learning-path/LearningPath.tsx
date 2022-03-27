@@ -2,8 +2,8 @@ import styled from 'styled-components/macro';
 
 import {Box} from '~/components';
 
-import {learningSteps} from './learningSteps';
 import {LearningStep} from './LearningStep';
+import {learningSteps} from './learningSteps';
 
 const ScrollContainer = styled(Box)`
   flex-wrap: wrap;
