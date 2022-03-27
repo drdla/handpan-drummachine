@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback} from 'react';
 import {Instrument, Song, Track} from 'reactronica';
 import styled from 'styled-components/macro';
 
@@ -7,7 +7,6 @@ import {Finger, Hand} from '~/modules/hand';
 import {Handpan} from '~/modules/handpan';
 
 import {Box, GridLayout} from '~/components';
-import BaseLayout from '~/components/templates/BaseLayout';
 
 import A3 from '~/assets/samples/A3.mp3';
 import A4 from '~/assets/samples/A4.mp3';
@@ -159,89 +158,87 @@ export const DrumMachine = () => {
       volume={percentToDecibel(volume.master) || undefined}
       isMuted={percentToDecibel(volume.master) === null}
     >
-      <BaseLayout>
-        <Track
-          steps={mapStepData(steps as Steps)}
-          volume={percentToDecibel(volume.music) || undefined}
-          mute={percentToDecibel(volume.music) === null}
-          onStepPlay={(_, i) => setStepIndex(i)}
-        >
-          <Instrument
-            type="sampler"
-            samples={{
-              'A-3': A3,
-              'D-3': D3,
-              'A-4': A4,
-              'C-4': C4,
-              'D-4': D4,
-              'E-4': E4,
-              'F-4': F4,
-              'G-4': G4,
-              'C-5': C5,
-            }}
-            onLoad={() => {
-              setReadyState();
-              console.info('Samples loaded');
-            }}
-          />
-        </Track>
-        <Track
-          steps={[
-            {name: 'C-1', velocity: 0.7},
-            {name: 'D-1', velocity: 0.7},
-            {name: 'D-1', velocity: 0.7},
-            {name: 'D-1', velocity: 0.7},
-          ]}
-          volume={percentToDecibel(volume.click) || undefined}
-          mute={percentToDecibel(volume.click) === null}
-        >
-          <Instrument
-            type="sampler"
-            samples={{
-              'C-1': ClickHigh,
-              'D-1': ClickLow,
-            }}
-          />
-        </Track>
+      <Track
+        steps={mapStepData(steps as Steps)}
+        volume={percentToDecibel(volume.music) || undefined}
+        mute={percentToDecibel(volume.music) === null}
+        onStepPlay={(_, i) => setStepIndex(i)}
+      >
+        <Instrument
+          type="sampler"
+          samples={{
+            'A-3': A3,
+            'D-3': D3,
+            'A-4': A4,
+            'C-4': C4,
+            'D-4': D4,
+            'E-4': E4,
+            'F-4': F4,
+            'G-4': G4,
+            'C-5': C5,
+          }}
+          onLoad={() => {
+            setReadyState();
+            console.info('Samples loaded');
+          }}
+        />
+      </Track>
+      <Track
+        steps={[
+          {name: 'C-1', velocity: 0.7},
+          {name: 'D-1', velocity: 0.7},
+          {name: 'D-1', velocity: 0.7},
+          {name: 'D-1', velocity: 0.7},
+        ]}
+        volume={percentToDecibel(volume.click) || undefined}
+        mute={percentToDecibel(volume.click) === null}
+      >
+        <Instrument
+          type="sampler"
+          samples={{
+            'C-1': ClickHigh,
+            'D-1': ClickLow,
+          }}
+        />
+      </Track>
 
-        <Layout>
-          <Transport flexDirection="column" alignItems="center" justifyContent="center">
-            <TransportButtons />
-          </Transport>
-          <VolumeAndTempo>
-            <Box flexDirection="column" alignItems="center" justifyContent="center">
-              <TempoControl />
-            </Box>
-            <Box flexDirection="column" alignItems="center" justifyContent="center">
-              <VolumeControls />
-            </Box>
-          </VolumeAndTempo>
-          <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
-            <LeftHand
-              fingers={mapFingers('left')}
-              onClick={(finger: Finger): void => handleHandClick('left', finger)}
-              canSelect={canSelect}
-            />
+      <Layout>
+        <Transport flexDirection="column" alignItems="center" justifyContent="center">
+          <TransportButtons />
+        </Transport>
+        <VolumeAndTempo>
+          <Box flexDirection="column" alignItems="center" justifyContent="center">
+            <TempoControl />
           </Box>
-          <InstrumentPreview>
-            <Handpan
-              active={activeElements(steps[currentStep] || [])}
-              canSelect={canSelect}
-              onClick={(element: string): void => handleHandpanClick(element)}
-            />
-          </InstrumentPreview>
-          <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
-            <RightHand
-              fingers={mapFingers('right')}
-              onClick={(finger: Finger): void => handleHandClick('right', finger)}
-              canSelect={canSelect}
-            />
+          <Box flexDirection="column" alignItems="center" justifyContent="center">
+            <VolumeControls />
           </Box>
-          <Box style={{gridArea: 'footer'}}>
-            <StepSequencer />
-          </Box>
-        </Layout>
-      </BaseLayout>
+        </VolumeAndTempo>
+        <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
+          <LeftHand
+            fingers={mapFingers('left')}
+            onClick={(finger: Finger): void => handleHandClick('left', finger)}
+            canSelect={canSelect}
+          />
+        </Box>
+        <InstrumentPreview>
+          <Handpan
+            active={activeElements(steps[currentStep] || [])}
+            canSelect={canSelect}
+            onClick={(element: string): void => handleHandpanClick(element)}
+          />
+        </InstrumentPreview>
+        <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
+          <RightHand
+            fingers={mapFingers('right')}
+            onClick={(finger: Finger): void => handleHandClick('right', finger)}
+            canSelect={canSelect}
+          />
+        </Box>
+        <Box style={{gridArea: 'footer'}}>
+          <StepSequencer />
+        </Box>
+      </Layout>
     </Song>
   );
 };

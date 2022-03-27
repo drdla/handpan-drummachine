@@ -3,14 +3,14 @@
 import {memo} from 'react';
 import {ThemeProvider} from 'styled-components/macro';
 
-import {Learning} from '~/modules/learning';
+import {Router} from '~/modules/router';
 
 import {GlobalStyles, theme} from '~/styles';
 
 const App = memo(() => (
   <ThemeProvider theme={theme}>
     <GlobalStyles />
-    <Learning />
+    <Router />
   </ThemeProvider>
 ));
 

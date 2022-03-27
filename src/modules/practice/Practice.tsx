@@ -15,7 +15,7 @@ const VideoPlayer = styled(Box)<{collapsed: boolean}>`
   aspect-ratio: 16/9;
   background: ${({theme}) => theme.color.background.darkest};
   justify-content: center;
-  padding: ${({theme}) => theme.size.default};
+  padding: ${({collapsed, theme}) => (collapsed ? 0 : theme.size.default)};
   transform-origin: 0 0;
   transition: all ${({theme}) => theme.transition.time.medium} ${({theme}) => theme.transition.style.dynamic}
     ${({theme}) => theme.transition.time.slow};
@@ -25,14 +25,12 @@ const VideoPlayer = styled(Box)<{collapsed: boolean}>`
   ${({collapsed}) =>
     collapsed &&
     `
-      aspect-ratio: 1/1;
-      padding: 0;
       transform: scale(10%);
       transition-delay: 0;
     `}
 `;
 
-export const Learning = () => {
+export const Practice = () => {
   const [collapsed, toggleVideoPlayer] = useState(false);
   const handlePlayback = useCallback(
     (event: 'start' | 'stop' | 'end') => toggleVideoPlayer(['stop', 'end'].includes(event)),
@@ -64,7 +62,6 @@ export const Learning = () => {
           // onPlaybackQualityChange={func} // defaults -> noop
         />
       </VideoPlayer>
-
       <DrumMachine />
     </div>
   );

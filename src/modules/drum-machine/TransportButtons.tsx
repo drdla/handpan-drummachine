@@ -51,6 +51,8 @@ export const TransportButtons = memo<TransportButtonsProps>(({className, style})
     togglePlayback,
   }));
   useKeyPressEvent(spacebar, () => isReady && togglePlayback());
+  useKeyPressEvent('ArrowRight', () => console.log('Go to next step'));
+  useKeyPressEvent('ArrowLeft', () => console.log('Go to previous step'));
 
   return (
     <Box className={className} style={style}>

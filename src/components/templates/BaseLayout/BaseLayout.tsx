@@ -1,4 +1,5 @@
-import {CSSProperties, PropsWithChildren, memo} from 'react';
+import {CSSProperties, memo} from 'react';
+import {Outlet} from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 import {maxWidth} from '~/styles';
@@ -12,13 +13,13 @@ const Layout = styled.div`
   overflow: scroll;
 `;
 
-type Props = PropsWithChildren<{
+type Props = {
   className?: string;
   style?: CSSProperties;
-}>;
+};
 
-export const BaseLayout = memo<Props>(({children, className = '', style = {}}) => (
+export const BaseLayout = memo<Props>(({className = '', style = {}}) => (
   <Layout className={className} style={style}>
-    {children}
+    <Outlet />
   </Layout>
 ));
