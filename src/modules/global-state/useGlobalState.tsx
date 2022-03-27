@@ -1,6 +1,6 @@
 import produce from 'immer';
-import create, {GetState, SetState} from 'zustand';
 import merge from 'lodash/merge';
+import create, {GetState, SetState} from 'zustand';
 
 import {findStepIndexBySoundId} from './lib';
 import {MidiNote, Step} from './types';

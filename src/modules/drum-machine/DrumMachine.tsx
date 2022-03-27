@@ -12,13 +12,13 @@ import A3 from '~/assets/samples/A3.mp3';
 import A4 from '~/assets/samples/A4.mp3';
 import C4 from '~/assets/samples/C4.mp3';
 import C5 from '~/assets/samples/C5.mp3';
+import ClickHigh from '~/assets/samples/click--high.mp3';
+import ClickLow from '~/assets/samples/click--low.mp3';
 import D3 from '~/assets/samples/D3.mp3';
 import D4 from '~/assets/samples/D4.mp3';
 import E4 from '~/assets/samples/E4.mp3';
 import F4 from '~/assets/samples/F4.mp3';
 import G4 from '~/assets/samples/G4.mp3';
-import ClickHigh from '~/assets/samples/click--high.mp3';
-import ClickLow from '~/assets/samples/click--low.mp3';
 import {percentToDecibel, transparentize} from '~/lib';
 import {size} from '~/styles';
 
