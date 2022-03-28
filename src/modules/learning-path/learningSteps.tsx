@@ -51,7 +51,7 @@ export const learningSteps: LearningStep[] = [
   },
   {
     id: '7',
-    category: 'rhythm',
+    category: 'technique',
     title: 'Perkussive Klänge',
     details: 'Schulter, Slap, Knöchel, Muted Bass',
     videoId: 'gJzUZ48PGO0',
