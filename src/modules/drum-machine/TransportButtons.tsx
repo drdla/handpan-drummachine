@@ -8,6 +8,7 @@ import {Box} from '~/components';
 import {size} from '~/styles';
 
 import {useGlobalState} from '../global-state';
+import {StepSequencer} from './StepSequencer';
 
 type TransportButtonsProps = {
   className?: string;
@@ -17,6 +18,7 @@ type TransportButtonsProps = {
 const Button = styled(Box)<{disabled: boolean}>`
   ${polishedSize(size * 6)}
 
+  background: ${({theme}) => theme.color.background.white};
   align-items: center;
   border-radius: ${({theme}) => theme.border.radius.circle};
   border: ${({theme}) => theme.border.width.strong} solid
@@ -45,14 +47,26 @@ const Button = styled(Box)<{disabled: boolean}>`
 const spacebar = ' ';
 
 export const TransportButtons = memo<TransportButtonsProps>(({className, style}) => {
-  const {isReady, isPlaying, togglePlayback} = useGlobalState(({isReady, isPlaying, togglePlayback}) => ({
-    isReady,
-    isPlaying,
-    togglePlayback,
-  }));
+  const {currentStep, isReady, isPlaying, setStepIndex, steps, togglePlayback} = useGlobalState(
+    ({currentStep, isReady, isPlaying, setStepIndex, steps, togglePlayback}) => ({
+      currentStep,
+      isReady,
+      isPlaying,
+      setStepIndex,
+      steps,
+      togglePlayback,
+    })
+  );
   useKeyPressEvent(spacebar, () => isReady && togglePlayback());
-  useKeyPressEvent('ArrowRight', () => console.log('Go to next step'));
-  useKeyPressEvent('ArrowLeft', () => console.log('Go to previous step'));
+  useKeyPressEvent('ArrowRight', () => {
+    const nextStep =
+      currentStep === null || currentStep === undefined || currentStep === -1 ? 0 : (currentStep + 1) % steps?.length;
+    setStepIndex(nextStep);
+  });
+  useKeyPressEvent('ArrowLeft', () => {
+    const nextStep = currentStep === null || currentStep === undefined || currentStep === -1 ? -1 : currentStep - 1;
+    setStepIndex(nextStep);
+  });
 
   return (
     <Box className={className} style={style}>

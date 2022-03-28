@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import {useGlobalState} from '~/modules/global-state';
 
-import {Box, Unit} from '~/components';
+import {Box, Icon, Unit} from '~/components';
 
 import {i18n} from '~/lib';
 
@@ -28,7 +28,7 @@ const StepperButton = styled(Box)`
   border-color: ${({theme}) => theme.color.border.lightest};
   border-style: solid;
   border-width: ${({theme}) => theme.border.width.default};
-  color: ${({theme}) => theme.color.clickable.default};
+  color: ${({theme}) => theme.color.text.default};
   cursor: pointer;
   flex: 1;
   font-size: ${({theme}) => theme.font.size.large};
@@ -80,8 +80,12 @@ export const TempoControl = ({className, style}: TempoControlProps) => {
         </div>
       </Tempo>
       <Box>
-        <StepperButton onClick={handleTempoDecrease}>-</StepperButton>
-        <StepperButton onClick={handleTempoIncrease}>+</StepperButton>
+        <StepperButton onClick={handleTempoDecrease}>
+          <Icon svgPaths={<path d="M1 15h28" />} size="large" />
+        </StepperButton>
+        <StepperButton onClick={handleTempoIncrease}>
+          <Icon svgPaths={<path d="M1 15h28M15 29V1" />} size="large" />
+        </StepperButton>
       </Box>
     </StyledTempoControl>
   );

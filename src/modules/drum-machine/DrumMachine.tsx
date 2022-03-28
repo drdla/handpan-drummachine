@@ -2,7 +2,7 @@ import {useCallback} from 'react';
 import {Instrument, Song, Track} from 'reactronica';
 import styled from 'styled-components/macro';
 
-import {Step, Steps, useGlobalState} from '~/modules/global-state';
+import {findSelectedSound, Step, Steps, useGlobalState} from '~/modules/global-state';
 import {Finger, Hand} from '~/modules/hand';
 import {Handpan} from '~/modules/handpan';
 
@@ -124,6 +124,8 @@ export const DrumMachine = () => {
       return ss;
     });
 
+  const selectedSoundObject = findSelectedSound(steps, selectedSound);
+
   const activeElements = (step: Step | Step[]) => {
     if (!step) {
       return [];
@@ -134,8 +136,12 @@ export const DrumMachine = () => {
     return ss;
   };
 
-  const mapFingers = (hand: 'left' | 'right'): [] | Finger[] => {
-    const step = steps[currentStep] as Step | Step[];
+  const activeHandpanElements: string[] = selectedSound
+    ? [selectedSoundObject?.tone as string]
+    : activeElements(steps[currentStep] || []);
+
+  const activeFingers = (hand: 'left' | 'right'): [] | Finger[] => {
+    const step = (selectedSoundObject ? selectedSoundObject : steps[currentStep]) as Step | Step[];
 
     if (!step) {
       return [];
@@ -216,21 +222,21 @@ export const DrumMachine = () => {
         </VolumeAndTempo>
         <Box justifyContent="flex-end" alignItems="center" style={{gridArea: 'sidebarLeft'}}>
           <LeftHand
-            fingers={mapFingers('left')}
+            fingers={activeFingers('left')}
             onClick={(finger: Finger): void => handleHandClick('left', finger)}
             canSelect={canSelect}
           />
         </Box>
         <InstrumentPreview>
           <Handpan
-            active={activeElements(steps[currentStep] || [])}
+            active={activeHandpanElements}
             canSelect={canSelect}
             onClick={(element: string): void => handleHandpanClick(element)}
           />
         </InstrumentPreview>
         <Box justifyContent="flex-start" alignItems="center" style={{gridArea: 'sidebarRight'}}>
           <RightHand
-            fingers={mapFingers('right')}
+            fingers={activeFingers('right')}
             onClick={(finger: Finger): void => handleHandClick('right', finger)}
             canSelect={canSelect}
           />

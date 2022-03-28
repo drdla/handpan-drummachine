@@ -15,6 +15,7 @@ export const page = css`
    */
 
   html {
+    background: hsl(47deg 74% 98%);
     font-size: ${({theme}) => theme.font.size.default}; /* 1 */
     line-height: 1.5; /* 1 */
     min-height: 100%; /* 2 */

@@ -15,11 +15,32 @@ const Backdrop = styled(Box)`
   position: fixed;
   width: 100vw;
   z-index: ${({theme}) => theme.zIndex.topmost1};
+`;
 
-  > div {
-    background: ${({theme}) => theme.color.background.white};
-    padding: ${({theme}) => theme.size.default};
+const ModalTitle = styled.h2`
+  padding-bottom: ${({theme}) => theme.size.default};
+  padding-top: ${({theme}) => theme.size.default};
+  text-align: center;
+`;
+
+const ModalBody = styled.div`
+  min-height: 12em;
+
+  p:last-child {
+    margin-bottom: 0;
   }
+`;
+
+const ModalActions = styled.div`
+  padding-top: ${({theme}) => theme.size.default};
+`;
+
+const Card = styled.div`
+  background: ${({theme}) => theme.color.background.white};
+  box-shadow: ${({theme}) => theme.boxShadow.elevated};
+  border-radius: ${({theme}) => theme.border.radius.default};
+  min-width: 34em;
+  padding: ${({theme}) => theme.size.default};
 `;
 
 export const Modal = () => {
@@ -28,13 +49,23 @@ export const Modal = () => {
     modal,
   }));
 
+  const handleAction = (e) => {
+    e.preventDefault();
+    modal?.action && modal.action();
+    hide();
+  };
+
   return modal ? (
     <Backdrop onClick={hide}>
-      <div>
-        <h2>{modal?.title}</h2>
-        <p>{modal?.content}</p>
-        {modal?.action && <Button onClick={modal.action} text="Weida geht's" />}
-      </div>
+      <Card onMouseDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
+        {modal?.title && <ModalTitle>{modal.title}</ModalTitle>}
+        {modal?.content && <ModalBody>{modal.content}</ModalBody>}
+        {modal?.action && (
+          <ModalActions>
+            <Button onClick={handleAction} text="Weida geht's" size="large" fullWidth />
+          </ModalActions>
+        )}
+      </Card>
     </Backdrop>
   ) : null;
 };

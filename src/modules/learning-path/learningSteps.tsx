@@ -17,8 +17,8 @@ export const learningSteps: LearningStep[] = [
   {
     id: '2',
     category: 'technique',
-    title: 'Grundübungen',
-    details: 'Übungen mit einer Hand und zwei Händen',
+    title: 'Handbeherrschung',
+    details: 'Spielen mit einer Hand/zwei Händen',
     videoId: 'YvuGyPLzkHw',
   },
   {
@@ -31,7 +31,7 @@ export const learningSteps: LearningStep[] = [
   {
     id: '4',
     category: 'technique',
-    title: 'Technikübungen',
+    title: 'Schnelleres Spiel',
     details: 'Doppelschläge, Split-Technik',
     videoId: 'ptvCTzdOnko',
   },
@@ -45,7 +45,7 @@ export const learningSteps: LearningStep[] = [
   {
     id: '6',
     category: 'technique',
-    title: 'Technikübungen 2',
+    title: 'Lautstärke',
     details: 'Dynamik, Akzente',
     videoId: 'ignhDQ9KHg',
   },
@@ -59,21 +59,21 @@ export const learningSteps: LearningStep[] = [
   {
     id: '8',
     category: 'rhythm',
-    title: 'Rhythmen',
+    title: 'Beliebte Grundrhythmen',
     details: 'Pop, Latin',
     videoId: 'hynzuXmIx5s',
   },
   {
     id: '9',
     category: 'rhythm',
-    title: 'Rhythmen und Fill-ins',
-    details: 'Melodien und Rhythmen kombinieren',
+    title: 'Fill-ins',
+    details: 'Rhythmen und Melodien kombinieren',
     videoId: 'nEkweUw6d1Q',
   },
   {
     id: '10',
     category: 'rhythm',
-    title: 'Rhythmik',
+    title: 'Komplexere Rhythmen',
     details: '2 gegen 3, Taktarten',
     videoId: 'lpMF-EcQ9bA',
   },

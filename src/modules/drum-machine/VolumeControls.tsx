@@ -32,7 +32,7 @@ const VolumeControl = styled(Box)<{volume: number}>`
       color: ${theme.color.text.lighter};
     `
       : `
-      background: ${theme.color.transparent};
+      background: ${theme.color.background.white};
       color: ${theme.color.text.default};
     `};
 

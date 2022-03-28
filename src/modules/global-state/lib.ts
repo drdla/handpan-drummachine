@@ -24,3 +24,21 @@ export const findStepIndexBySoundId = (steps: Steps, soundId: string): number | 
 
   return currentStep;
 };
+
+export const findSelectedSound = (steps: Steps, selectedSound: string | null): null | Step => {
+  if (!selectedSound) {
+    console.error('No sound selected.');
+    return null;
+  }
+
+  const currentStep = findStepIndexBySoundId(steps, selectedSound);
+
+  if (currentStep === undefined || currentStep === null) {
+    return null;
+  }
+
+  const step = steps[currentStep];
+  const sound = (Array.isArray(step) ? step : [step]).filter(Boolean).filter((s) => s?.id === selectedSound)[0];
+
+  return sound;
+};

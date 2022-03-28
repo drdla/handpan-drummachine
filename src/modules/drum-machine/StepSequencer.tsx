@@ -35,6 +35,7 @@ const StepNumber = styled.span`
 
 const Step = memo(styled(Box)<StepProps>`
   align-items: center;
+  background: ${({theme}) => theme.color.background.white};
   border: ${({theme}) => theme.border.default};
   color: ${({theme}) => theme.color.text.lightest};
   font-size: ${({theme}) => theme.font.size.huge};
@@ -48,10 +49,11 @@ const Step = memo(styled(Box)<StepProps>`
   ${({active, theme}) =>
     active === 'true' &&
     `
-        background: ${theme.color.primary.lightest};
-        box-shadow: 0 0 1px ${theme.size.tiny} ${transparentize(theme.color.primary.default, 55)};
-        color: ${theme.color.text.default};
-      `}
+      background: ${theme.color.primary.lightest};
+      box-shadow: 0 0 1px ${theme.size.tiny} ${transparentize(theme.color.primary.default, 55)};
+      color: ${theme.color.text.default};
+      z-index: ${theme.zIndex.elevated1};
+    `}
 `);
 
 const Container = styled(Box)`
@@ -101,7 +103,7 @@ export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) 
     })
   );
 
-  const isActive = (i: number) => (isPlaying && currentStep === i ? 'true' : 'false');
+  const isActive = (i: number) => (currentStep === i ? 'true' : 'false');
 
   return (
     <Container className={className} style={style}>
@@ -115,7 +117,7 @@ export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) 
               {stepz.map(
                 (s, ii) =>
                   s && (
-                    <SoundWrapper key={ii} onClick={() => selectSound(i, s.id)} selected={selectedSound === s.id}>
+                    <SoundWrapper key={ii} onClick={() => selectSound(s.id)} selected={selectedSound === s.id}>
                       <Sound {...s} />
                     </SoundWrapper>
                   )

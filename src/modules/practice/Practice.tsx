@@ -26,7 +26,7 @@ const VideoPlayer = styled(Box)`
   left: 0;
   padding: ${({theme}) => theme.size.default};
   position: absolute;
-  top: ${({theme}) => theme.size.large}; /* 1 */
+  top: calc(${({theme}) => theme.size.default} * 3); /* 1 */
   transform-origin: 0 0;
   transition: all ${({theme}) => theme.transition.time.medium} ${({theme}) => theme.transition.style.dynamic} 0ms;
   width: 100%;
@@ -43,7 +43,7 @@ const VideoPlayer = styled(Box)`
 
 const NavRow = styled(Box)`
   align-items: center;
-  height: ${({theme}) => theme.size.large};
+  height: calc(${({theme}) => theme.size.default} * 3);
   justify-content: space-between;
 `;
 
@@ -62,10 +62,9 @@ export const Practice = () => {
 
   const showModal = useModal((state) => state.show);
   const handleEndExercise = useCallback(() => {
-    console.log('handleEndExercise');
     showModal(
       'Eigenen Lernstand bewerten (1-5), ggf. Lernzeit erfassen.',
-      i18n.t('End exercise "{{exerciseName}}"', {exerciseName}),
+      i18n.t('End practicing "{{exerciseName}}"', {exerciseName}),
       () => navigate('/learning-path')
     );
   }, [exerciseName, showModal]);
@@ -75,8 +74,7 @@ export const Practice = () => {
       <NavRow>
         <Link to="/learning-path">{i18n.t('Back to learning path')}</Link>
         <div>
-          <a>{i18n.t('Record practice time')}</a>
-          <a onClick={handleEndExercise}>{i18n.t('End exercise "{{exerciseName}}"', {exerciseName})}</a>
+          <a onClick={handleEndExercise}>{i18n.t('End practicing "{{exerciseName}}"', {exerciseName})}</a>
         </div>
       </NavRow>
       <VideoPlayer className={clsx({'is-collapsed': collapsed})} onClick={() => toggleVideoPlayer(!collapsed)}>

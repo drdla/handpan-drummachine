@@ -2,7 +2,7 @@ import produce from 'immer';
 import merge from 'lodash/merge';
 import create, {GetState, SetState} from 'zustand';
 
-import {findStepIndexBySoundId} from './lib';
+import {findSelectedSound, findStepIndexBySoundId} from './lib';
 import {MidiNote, Step} from './types';
 
 export type Steps = (Step | Step[] | null)[];
@@ -14,7 +14,7 @@ interface GlobalStore {
   isReady: boolean;
   isPlaying: boolean;
   mode: 'record' | 'playback';
-  selectSound: (stepIndex: number, id: string) => void;
+  selectSound: (id: string) => void;
   selectedSound: string | null;
   setReadyState: () => void;
   setStepIndex: (index: number) => void;
@@ -55,10 +55,11 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
   isReady: false,
   isPlaying: false,
   mode: 'record',
-  selectSound: (stepIndex, id) => {
+  selectSound: (id) => {
     const {mode, selectedSound} = get();
 
     if (mode === 'playback') {
+      console.error('Cannot select sound in playback mode');
       return;
     }
 
@@ -78,23 +79,26 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
       })
     );
   },
-  setStepIndex: (i) =>
+  setStepIndex: (i) => {
+    const {steps} = get();
+
     set(
       produce((state) => {
-        state.currentStep = i;
+        state.currentStep = Math.max(Math.min(i, steps?.length), -1);
       })
-    ),
+    );
+  },
   steps: [
-    {
-      id: 'ccd65bd6-0e4a-48b3-aef9-3fc77e9c9e63',
-      tone: 'A-3' as MidiNote,
-      technique: {hand: 'right', finger: 'thumb'},
-      velocity: 1,
-    },
     {
       id: '1582814c-bf8f-4689-b5fa-2c52d5661cd9',
       tone: 'C-4' as MidiNote,
       technique: {hand: 'left', finger: 'thumb'},
+      velocity: 1,
+    },
+    {
+      id: 'ccd65bd6-0e4a-48b3-aef9-3fc77e9c9e63',
+      tone: 'A-3' as MidiNote,
+      technique: {hand: 'right', finger: 'thumb'},
       velocity: 1,
     },
     {
@@ -176,7 +180,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
       velocity: 1,
     },
     {
-      id: 'c1r71225-b74f-2587-8132-bbf9bd0d8db9',
+      id: 'c1r71225-b74f-2587-8132-bef9bd0d8db9',
       tone: 'C-5' as MidiNote,
       technique: {hand: 'left', finger: 'index-finger'},
       velocity: 1,
@@ -202,7 +206,7 @@ export const useGlobalState = create<GlobalStore>((set: SetState<GlobalStore>, g
     }
 
     const currentStep = findStepIndexBySoundId(steps, selectedSound);
-    if (!currentStep) {
+    if (currentStep === undefined || currentStep === null) {
       console.error('Sound not found within steps array.'); // TODO: just ADD that item!
       return;
     }

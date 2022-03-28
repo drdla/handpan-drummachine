@@ -1,43 +1,31 @@
 import {Link} from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-import {Box} from '~/components';
-
 import type {LearningStep as LearningStepType} from './learningSteps';
 
-const Details = styled(Box)`
+const Step = styled(Link)`
+  background: ${({theme}) => theme.color.background.imageOverlay};
+  border-radius: ${({theme}) => theme.border.radius.large};
+  box-shadow: ${({theme}) => theme.boxShadow.separateFromBelow};
+  display: flex;
+  flex: 0 20%;
+  padding: 0;
   color: ${({theme}) => theme.color.text.default};
   flex-direction: column;
   justify-content: center;
   padding: ${({theme}) => theme.size.default};
+
+  h2 {
+    margin-bottom: ${({theme}) => theme.size.small};
+    text-align: center;
+  }
 `;
 
-const Number = styled(Box)`
-  align-items: center;
-  border-right: ${({theme}) => theme.border.default};
-  color: ${({theme}) => theme.color.text.lighter};
-  font-size: ${({theme}) => theme.font.size.huge};
-  justify-content: center;
-  padding: ${({theme}) => theme.size.default};
-  width: 6rem;
-`;
+type Props = LearningStepType;
 
-const Step = styled(Link)`
-  background: ${({theme}) => theme.color.background.white};
-  border: ${({theme}) => theme.border.default};
-  border-radius: ${({theme}) => theme.border.radius.large};
-  display: flex;
-  padding: 0;
-`;
-
-type Props = LearningStepType & {index: number};
-
-export const LearningStep = ({details, id, index, title}: Props) => (
+export const LearningStep = ({details, id, title}: Props) => (
   <Step to={`/practice/${id}`}>
-    {/* <Number>{index + 1}</Number> */}
-    <Details>
-      <h2>{title}</h2>
-      <span>{details}</span>
-    </Details>
+    <h2>{title}</h2>
+    <span>{details}</span>
   </Step>
 );
