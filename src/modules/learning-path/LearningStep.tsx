@@ -34,7 +34,7 @@ type Props = LearningStepType & {index: number};
 
 export const LearningStep = ({details, id, index, title}: Props) => (
   <Step to={`/practice/${id}`}>
-    <Number>{index + 1}</Number>
+    {/* <Number>{index + 1}</Number> */}
     <Details>
       <h2>{title}</h2>
       <span>{details}</span>
