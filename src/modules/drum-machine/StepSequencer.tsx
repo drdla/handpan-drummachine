@@ -46,6 +46,12 @@ const Step = memo(styled(Box)<StepProps>`
     margin-left: -${({theme}) => theme.border.width.default};
   }
 
+  ${({separate, theme}) =>
+    separate === 'true' &&
+    `
+      border-left-color: ${theme.color.background.darkest};
+    `}
+
   ${({active, theme}) =>
     active === 'true' &&
     `
@@ -92,11 +98,14 @@ const SoundWrapper = styled(Box)<{selected: boolean}>`
     `}
 `;
 
+// TODO: The name is not actually correct... what is the first step?
+const isFirstBeat = (stepIndex: number, signature: string = '4/4'): boolean =>
+  stepIndex % parseInt(signature.split('/')[0], 10) === 0 && stepIndex !== 0;
+
 export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) => {
-  const {currentStep, isPlaying, selectSound, selectedSound, steps} = useGlobalState(
-    ({currentStep, isPlaying, selectSound, selectedSound, steps}) => ({
+  const {currentStep, selectSound, selectedSound, steps} = useGlobalState(
+    ({currentStep, selectSound, selectedSound, steps}) => ({
       currentStep,
-      isPlaying,
       selectSound,
       selectedSound,
       steps,
@@ -111,7 +120,7 @@ export const StepSequencer = ({className = '', style = {}}: StepSequencerProps) 
         const stepz = (Array.isArray(step) ? step : [step]).filter(Boolean);
 
         return (
-          <Step key={i} separate={(i + 1) % 4 === 0 ? 'true' : 'false'} active={isActive(i)}>
+          <Step key={i} separate={isFirstBeat(i, '4/4') ? 'true' : 'false'} active={isActive(i)}>
             <StepNumber>{i + 1}</StepNumber>
             <Box flexDirection="column">
               {stepz.map(
